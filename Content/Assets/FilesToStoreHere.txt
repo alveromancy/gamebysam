@@ -1,1 +1,0 @@
-On the assets folder we only save the .uasset files in order to minimaze the space. 

@@ -1,1 +1,0 @@
-Folder for game characters such as enemies, main character, etc. 

@@ -1,1 +1,0 @@
-Folder for all testing purposes. This folder is not going to be on the repo, so you can freely mess with things 
