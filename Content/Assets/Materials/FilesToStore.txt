@@ -1,0 +1,1 @@
+Folder for generic materials, such as water, wood, sand, sky, etc. 
