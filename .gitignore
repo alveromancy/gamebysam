@@ -21,11 +21,26 @@ Content/WhiteRoom
 *.xcworkspace
 
 #Custom file formats
-*.fbx
+
+#Image
+*.tiff
+*.gif
 *.jpg
 *.png
 *.tga
-*.obj
+*.bmp
+*.svg
+*.cgm
 *.jpeg
 *.ps
+
+
+#Video (only avi is not suported properly)
 *.avi 
+
+#Models
+*.fbx
+*.obj
+*.3ds
+*.dae
+*.stl
