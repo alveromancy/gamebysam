@@ -2,7 +2,7 @@
 
 Developed with Unreal Engine 4
 
-# Time shift studio
+# TimeShift studio
 
 < Add description here > 
 
@@ -23,6 +23,10 @@ Developed with Unreal Engine 4
 ### Joel Quey - C++ and BP programmer
 
 Game Programmer with 1 year and 6 months of working experience in game industry. Proficient in C#, C++, UE4 Blueprint with Unity and UE4. I have done various prototypes with Unity and UE4.
+
+### Matt "WookieeChan" Rimler - BP Programmer, VFX
+
+< brief description + interesting links > 
 
 LinkedIn - https://sg.linkedin.com/in/joel-quey-180354154
 Portfolio - https://joelquey.wixsite.com/portfolio
