@@ -1,4 +1,5 @@
 #UE4 folders
+
 DerivedDataCache
 Intermediate
 Saved
@@ -7,7 +8,9 @@ Saved
 
 Content/WhiteRoom
 
+
 #Visual Studio
+
 .vscode
 .vs
 *.VC.db
@@ -21,7 +24,10 @@ Content/WhiteRoom
 
 #Custom file formats
 
+*.md
+
 #Image
+
 *.tiff
 *.gif
 *.jpg
@@ -35,9 +41,11 @@ Content/WhiteRoom
 
 
 #Video (only avi is not suported properly)
+
 *.avi 
 
 #Models
+
 *.fbx
 *.obj
 *.3ds
