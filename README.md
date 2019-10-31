@@ -2,7 +2,7 @@
 
 Developed with Unreal Engine 4
 
-# TimeShift studio
+# TimeShift studios
 
 < Add description here > 
 
