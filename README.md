@@ -18,7 +18,8 @@ Developed with Unreal Engine 4
 
 ### Aleix Rius - C++ and BP programmer
 
-< brief description + interesting links > 
+Bachelor in Game design and development, with 1+ year experience in Unreal Engine C++. 
+linkedin https://www.linkedin.com/in/aleixrius/
 
 ### Joel Quey - C++ and BP programmer
 
