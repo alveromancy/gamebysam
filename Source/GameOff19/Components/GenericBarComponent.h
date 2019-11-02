@@ -18,6 +18,7 @@ public:
 	// Sets default values for this component's properties
 	UGenericBarComponent();
 
+	virtual void BeginPlay()override;
 	/**
 		Adds some amount of quantity to the current value. 
 		@param Quantity amount to increase
@@ -85,8 +86,12 @@ protected:
 
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (DisplayName = "HUD Widget"))
-		TSubclassOf< class UGenericBar > WidgetReference; 
+		TSubclassOf< class UUserWidget > WidgetToSpawn; 
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, meta = (DisplayName = "Widget Name"))
+		FName W_Name;
+
+	class UGenericBar * WidgetReference; 
 
 protected: 
 

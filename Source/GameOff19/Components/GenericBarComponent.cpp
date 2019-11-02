@@ -3,6 +3,12 @@
 
 #include "GenericBarComponent.h"
 #include "GameOff19/Widgets/GenericBar.h"
+#include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/PlayerController.h"
+
+
+
 
 // Sets default values for this component's properties
 UGenericBarComponent::UGenericBarComponent()
@@ -12,6 +18,24 @@ UGenericBarComponent::UGenericBarComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
+
+
+}
+
+void UGenericBarComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	if (WidgetToSpawn)
+	{
+		APlayerController * Controller = UGameplayStatics::GetPlayerController(GetWorld(), 0); 
+		
+		WidgetReference = CreateWidget<UGenericBar>(Controller, WidgetToSpawn);
+		WidgetReference->AddToPlayerScreen();
+	}
+		
+	
+	
+
 }
 
 
@@ -20,7 +44,7 @@ float UGenericBarComponent::Add(float Quantity)
 	CurrentAmmount = (CurrentAmmount + Quantity > MaxAmmount) ? MaxAmmount : CurrentAmmount + Quantity; 
 
 	if (WidgetReference)
-		WidgetReference->GetDefaultObject<UGenericBar>()->Update(CurrentAmmount);
+		WidgetReference->Update(CurrentAmmount);
 
 	return CurrentAmmount;
 }
@@ -35,7 +59,7 @@ float UGenericBarComponent::Withdraw(float Quantity)
 			OnRunnedOut.Broadcast();
 
 		if (WidgetReference)
-			WidgetReference->GetDefaultObject<UGenericBar>()->Update(CurrentAmmount);
+			WidgetReference->Update(CurrentAmmount);
 	}
 	
 	return CurrentAmmount;

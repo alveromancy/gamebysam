@@ -15,7 +15,7 @@ void UGenericBar::Update(float NewValue)
 		else
 			OnBarDecease(-delta); 
 
-		
+		OnUpdate(value); 
 	}
 
 }

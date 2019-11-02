@@ -22,6 +22,9 @@ public:
 	void Update(float NewValue); 
 
 	UFUNCTION(BlueprintImplementableEvent)
+		void OnUpdate(float newValue); 
+
+	UFUNCTION(BlueprintImplementableEvent)
 		void OnBarIncrease(float DeltaIncrement); 
 
 	UFUNCTION(BlueprintImplementableEvent)
