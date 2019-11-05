@@ -12,7 +12,7 @@ UENUM(BlueprintType)
 enum class EGeometryMaterial : uint8
 {
 	STONE UMETA(DisplayName = "Stone"),
-	METAL UMETA(DisplayName = "Meta"),
+	METAL UMETA(DisplayName = "Metal"),
 	PLASTIC UMETA(DisplayName = "Plastic"),
 	DARK_MATTER UMETA(DisplayName = "Dark Matter"),
 	CRYSTAL UMETA(DisplayName = "Crystal")
@@ -26,25 +26,23 @@ enum class EGeometryShape : uint8
 	PENTAGON UMETA(DisplayName = "Pentagon Frsutum"),
 	TETHAEDRON UMETA(DisplayName = "Tethaedron"),
 	CUBE UMETA(DisplayName = "Cube"),
-	Sphere UMETA(DisplayName = "Sphere")
+	SPHERE UMETA(DisplayName = "Sphere")
 };
 
-
-
-USTRUCT(BlueprintType)
-struct FGoemtryProperty : public FTableRowBase
+UENUM(BlueprintType)
+enum class EGeometryElectricty : uint8
 {
-	GENERATED_BODY()
+	CONDUCT UMETA(DisplayName = "Conducts Electricty"),
+	NO_CONDUCT UMETA(DisplayName = "No Conducts Electricty"),
+	ABSORB UMETA(DisplayName = "Absorbs Electricty")
+};
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		EGeometryMaterial Material; 
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (DisplayName = "Light Reflection", UIMin = 0, UIMax = 100, ClampMin = 0, ClampMax = 100))
-		int32 weight; 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (DisplayName = "Light Reflection", UIMin = 0, UIMax = 100, ClampMin = 0, ClampMax = 100))
-		int32 LightReflection;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (DisplayName = "Energy Conductivity",UIMin = 0, UIMax = 100, ClampMin = 0, ClampMax =100))
-		int32 Conductivity;
+UENUM(BlueprintType)
+enum class EGeometryLight : uint8
+{
+	REFLECT UMETA(DisplayName = "Reflect light"),
+	NO_REFLECT UMETA(DisplayName = "No Reflect light"),
+	ABSORB UMETA(DisplayName = "Absorbs light")
 };
 
 UCLASS()
@@ -59,49 +57,23 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-
+	UFUNCTION(BlueprintCallable)
+		float GetWeight()const { return Weight;}
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private: 
-	UFUNCTION(BlueprintType)
-		void CollisionHandle(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 
 
 protected: 
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Mesh")
 		class UStaticMeshComponent * SM_Mesh;
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Mesh")
-		class UCapsuleComponent * CC_Collider;
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Gameplay | Debug", meta = (DisplayName = "Ray reference"))
-		class ALightRay * ARay; 
-
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Geometry Properties")
-		EGeometryMaterial Material; 
-
-
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Geometry Properties")
-		int32 Weight = 50; 
-
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Geometry Properties", meta = (DisplayName = "Reflection"))
-		int32 LightReflection = 0.5; 
-
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Geometry Properties")
-		int32 Conductivity = 0.5; 
-
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Gameplay", meta =(DisplayName = "Energy Level"))
-		float EnergyAbsorbed = 0;
-
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Gameplay | Debug", meta = (DisplayName = "Conducting Energy"))
-		bool bIsConductingEnergy = false;
-
-
-
-
-
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
+		float Weight;
 
 };
