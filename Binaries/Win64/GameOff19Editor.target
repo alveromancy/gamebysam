@@ -29,43 +29,43 @@
 			"Type": "Executable"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithC4DImporter\\Binaries\\Win64\\UE4Editor-DatasmithC4DImporter.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithC4DImporter\\Binaries\\Win64\\UE4Editor-DatasmithC4DImporter.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithC4DImporter\\Binaries\\Win64\\UE4Editor-DatasmithC4DImporter.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithC4DImporter\\Binaries\\Win64\\UE4Editor-DatasmithC4DImporter.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithImporter.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithImporter.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithImporter.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithImporter.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithNativeTranslator.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithNativeTranslator.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithNativeTranslator.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithNativeTranslator.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithOpenNurbsTranslator.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithOpenNurbsTranslator.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithOpenNurbsTranslator.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithOpenNurbsTranslator.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithCoreTechExtension.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithCoreTechExtension.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithCoreTechExtension.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor-DatasmithCoreTechExtension.pdb",
 			"Type": "SymbolFile"
 		},
 		{
@@ -93,43 +93,43 @@
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithCADImporter\\Binaries\\Win64\\UE4Editor-DatasmithCADTranslator.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithCADImporter\\Binaries\\Win64\\UE4Editor-DatasmithCADTranslator.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithCADImporter\\Binaries\\Win64\\UE4Editor-DatasmithCADTranslator.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithCADImporter\\Binaries\\Win64\\UE4Editor-DatasmithCADTranslator.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithVREDImporter.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithVREDImporter.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithVREDImporter.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithVREDImporter.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithDeltaGenImporter.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithDeltaGenImporter.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithDeltaGenImporter.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithDeltaGenImporter.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithFBXImporter.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithFBXImporter.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithFBXImporter.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor-DatasmithFBXImporter.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Runtime\\VariantManager\\Binaries\\Win64\\UE4Editor-VariantManager.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Runtime\\VariantManager\\Binaries\\Win64\\UE4Editor-VariantManager.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Runtime\\VariantManager\\Binaries\\Win64\\UE4Editor-VariantManager.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Runtime\\VariantManager\\Binaries\\Win64\\UE4Editor-VariantManager.pdb",
 			"Type": "SymbolFile"
 		},
 		{
@@ -137,11 +137,11 @@
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithGLTFImporter\\Binaries\\Win64\\UE4Editor-DatasmithGLTFImporter.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithGLTFImporter\\Binaries\\Win64\\UE4Editor-DatasmithGLTFImporter.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithGLTFImporter\\Binaries\\Win64\\UE4Editor-DatasmithGLTFImporter.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithGLTFImporter\\Binaries\\Win64\\UE4Editor-DatasmithGLTFImporter.pdb",
 			"Type": "SymbolFile"
 		},
 		{
@@ -149,35 +149,35 @@
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithIFCImporter\\Binaries\\Win64\\UE4Editor-DatasmithIFCImporter.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithIFCImporter\\Binaries\\Win64\\UE4Editor-DatasmithIFCImporter.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithIFCImporter\\Binaries\\Win64\\UE4Editor-DatasmithIFCImporter.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithIFCImporter\\Binaries\\Win64\\UE4Editor-DatasmithIFCImporter.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\MDLImporter\\Binaries\\Win64\\UE4Editor-MDLImporter.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\MDLImporter\\Binaries\\Win64\\UE4Editor-MDLImporter.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\MDLImporter\\Binaries\\Win64\\UE4Editor-MDLImporter.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\MDLImporter\\Binaries\\Win64\\UE4Editor-MDLImporter.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\Binaries\\Win64\\UE4Editor-StaticMeshEditorExtension.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\Binaries\\Win64\\UE4Editor-StaticMeshEditorExtension.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\Binaries\\Win64\\UE4Editor-StaticMeshEditorExtension.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\Binaries\\Win64\\UE4Editor-StaticMeshEditorExtension.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\Binaries\\Win64\\UE4Editor-MeshProcessingLibrary.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\Binaries\\Win64\\UE4Editor-MeshProcessingLibrary.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\Binaries\\Win64\\UE4Editor-MeshProcessingLibrary.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\Binaries\\Win64\\UE4Editor-MeshProcessingLibrary.pdb",
 			"Type": "SymbolFile"
 		},
 		{
@@ -1026,10 +1026,6 @@
 		},
 		{
 			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-VulkanShaderFormat.dll",
-			"Type": "DynamicLibrary"
-		},
-		{
-			"Path": "$(EngineDir)/Binaries/Win64/UE4Editor-TextureFormatAndroid.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
@@ -2061,27 +2057,27 @@
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithCore.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithCore.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithCore.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithCore.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithExporter.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithExporter.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithExporter.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithExporter.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithFacade.dll",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithFacade.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithFacade.pdb",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor-DatasmithFacade.pdb",
 			"Type": "SymbolFile"
 		},
 		{
@@ -2141,11 +2137,11 @@
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithC4DImporter\\Binaries\\Win64\\UE4Editor.modules",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithC4DImporter\\Binaries\\Win64\\UE4Editor.modules",
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor.modules",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\Binaries\\Win64\\UE4Editor.modules",
 			"Type": "RequiredResource"
 		},
 		{
@@ -2161,15 +2157,15 @@
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithCADImporter\\Binaries\\Win64\\UE4Editor.modules",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithCADImporter\\Binaries\\Win64\\UE4Editor.modules",
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor.modules",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\Binaries\\Win64\\UE4Editor.modules",
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Runtime\\VariantManager\\Binaries\\Win64\\UE4Editor.modules",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Runtime\\VariantManager\\Binaries\\Win64\\UE4Editor.modules",
 			"Type": "RequiredResource"
 		},
 		{
@@ -2177,7 +2173,7 @@
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithGLTFImporter\\Binaries\\Win64\\UE4Editor.modules",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithGLTFImporter\\Binaries\\Win64\\UE4Editor.modules",
 			"Type": "RequiredResource"
 		},
 		{
@@ -2185,15 +2181,15 @@
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithIFCImporter\\Binaries\\Win64\\UE4Editor.modules",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithIFCImporter\\Binaries\\Win64\\UE4Editor.modules",
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\MDLImporter\\Binaries\\Win64\\UE4Editor.modules",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\MDLImporter\\Binaries\\Win64\\UE4Editor.modules",
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\Binaries\\Win64\\UE4Editor.modules",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\Binaries\\Win64\\UE4Editor.modules",
 			"Type": "RequiredResource"
 		},
 		{
@@ -2521,7 +2517,7 @@
 			"Type": "RequiredResource"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor.modules",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Binaries\\Win64\\UE4Editor.modules",
 			"Type": "RequiredResource"
 		}
 	],
@@ -2531,11 +2527,11 @@
 			"Type": "UFS"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithC4DImporter\\DatasmithC4DImporter.uplugin",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithC4DImporter\\DatasmithC4DImporter.uplugin",
 			"Type": "UFS"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\DatasmithImporter.uplugin",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithImporter\\DatasmithImporter.uplugin",
 			"Type": "UFS"
 		},
 		{
@@ -2551,15 +2547,15 @@
 			"Type": "UFS"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithCADImporter\\DatasmithCADImporter.uplugin",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithCADImporter\\DatasmithCADImporter.uplugin",
 			"Type": "UFS"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\DatasmithFBXImporter.uplugin",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithFBXImporter\\DatasmithFBXImporter.uplugin",
 			"Type": "UFS"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Runtime\\VariantManager\\VariantManager.uplugin",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Runtime\\VariantManager\\VariantManager.uplugin",
 			"Type": "UFS"
 		},
 		{
@@ -2567,7 +2563,7 @@
 			"Type": "UFS"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithGLTFImporter\\DatasmithGLTFImporter.uplugin",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithGLTFImporter\\DatasmithGLTFImporter.uplugin",
 			"Type": "UFS"
 		},
 		{
@@ -2575,15 +2571,15 @@
 			"Type": "UFS"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithIFCImporter\\DatasmithIFCImporter.uplugin",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\DatasmithIFCImporter\\DatasmithIFCImporter.uplugin",
 			"Type": "UFS"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\MDLImporter\\MDLImporter.uplugin",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\MDLImporter\\MDLImporter.uplugin",
 			"Type": "UFS"
 		},
 		{
-			"Path": "D:\\UnrealProjects\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\StaticMeshEditorExtension.uplugin",
+			"Path": "E:\\UE423Epic\\UE_4.23\\Enterprise\\Plugins\\Editor\\StaticMeshEditorExtension\\StaticMeshEditorExtension.uplugin",
 			"Type": "UFS"
 		},
 		{
