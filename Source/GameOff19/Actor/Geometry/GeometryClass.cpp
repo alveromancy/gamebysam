@@ -35,5 +35,8 @@ void AGeometryClass::Tick(float DeltaTime)
 
 }
 
-
+void AGeometryClass::BeginDestroy()
+{
+	Super::BeginDestroy();
+}
 

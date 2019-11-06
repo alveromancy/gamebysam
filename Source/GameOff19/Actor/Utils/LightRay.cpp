@@ -120,6 +120,12 @@ FHitResult ALightRay::RecalculateRayLenght()
 		if(true) //TODO Ask if hits the material and if the material cann reflect the light
 			ReflectLight(Hit.ImpactPoint, Hit.ImpactNormal);
 	}
+	else
+	{
+		FVector CurrentScale = GetActorScale3D();
+		CurrentScale.Z = (LIGHT_MAXIMUM_DISTANCE) / 100;
+		SetActorScale3D(CurrentScale);
+	}
 			
 	return Hit; 
 }
