@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 
 
+
 // Sets default values
 AGeometryClass::AGeometryClass()
 {
