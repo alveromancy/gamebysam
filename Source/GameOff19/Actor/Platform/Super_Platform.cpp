@@ -27,7 +27,7 @@ ASuper_Platform::ASuper_Platform()
 
 
 	SC_Collider = CreateDefaultSubobject<USphereComponent>("Trigger"); 
-	SC_Collider->AttachToComponent(SM_Mesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, false));
+	SC_Collider->AttachToComponent(SM_Mesh, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 
 	SC_Collider->OnComponentBeginOverlap.AddDynamic(this, &ASuper_Platform::PlayerDetected);
 	SC_Collider->OnComponentEndOverlap.AddDynamic(this, &ASuper_Platform::PlayerDetectionLost);
@@ -160,7 +160,6 @@ void ASuper_Platform::TimeOut()
 
 void ASuper_Platform::PlayerDetected(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Log, TEXT("Player step up"));
 	if (!bIsActivated)
 	{
 		if (Activation == EPlatformActivation::PLAYER_STEP_UP)
@@ -176,7 +175,7 @@ void ASuper_Platform::PlayerDetected(UPrimitiveComponent* OverlappedComp, AActor
 
 void ASuper_Platform::PlayerDetectionLost(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	UE_LOG(LogTemp, Log, TEXT("Player drop"));
+
 	if (Deactivation == EPlatformDeactivation::PLAYER_STEP_DOWN)
 	{
 		DeactivatePlatform();
