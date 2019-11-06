@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 
 
+
 // Sets default values
 AGeometryClass::AGeometryClass()
 {
@@ -34,5 +35,8 @@ void AGeometryClass::Tick(float DeltaTime)
 
 }
 
-
+void AGeometryClass::BeginDestroy()
+{
+	Super::BeginDestroy();
+}
 
