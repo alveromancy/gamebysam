@@ -45,7 +45,11 @@ void UElectricityActor::TurnOnElectricity()
 
 void UElectricityActor::SetPropagateFlag(bool bCanPropagateElectricity)
 {
-	bCanPropagate = bCanPropagateElectricity;
+	if (bCanPropagate != bCanPropagateElectricity)
+	{
+		bCanPropagate = bCanPropagateElectricity;
+		PropagateElectricity();
+	}
 }
 
 
@@ -66,7 +70,7 @@ void UElectricityActor::PropagateElectricity()
 	{
 		if (bIsElectrified && bCanPropagate)
 			ElectricComponentReference->TurnOnElectricity();
-		else if (!bIsElectrified)
+		else 
 			ElectricComponentReference->TurnOffElectricity();
 	}
 }

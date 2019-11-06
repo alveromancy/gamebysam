@@ -55,7 +55,7 @@ void AWeightButton::Deactivate()
 
 void AWeightButton::ObjectDetected(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (Cast<ACharacter>(OtherActor))
+	if (Cast<ACharacter>(OtherActor) && bCanPlayerActivate)
 	{
 		Activate(); 
 	}

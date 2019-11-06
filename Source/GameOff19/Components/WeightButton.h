@@ -44,6 +44,11 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAcces = "True"))
 		class UStaticMeshComponent* SM_Mesh; 
 
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Activation | Debug")
+		bool bIsActivated = false;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Activation")
+		bool bCanPlayerActivate = false; 
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Activation")
 		float GoalWeight = 1;
@@ -51,8 +56,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Activation")
 		float CurrentWeight = 0; 
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Activation | Debug")
-		bool bIsActivated = false;
+
 
 
 };
