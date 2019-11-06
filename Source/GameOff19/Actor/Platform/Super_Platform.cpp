@@ -221,7 +221,6 @@ void ASuper_Platform::PostEditChangeProperty(FPropertyChangedEvent & PropertyCha
 
 		if (Activation == EPlatformActivation::PLAYER_STEP_UP)
 		{
-			//SC_Collider->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel2);
 			SC_Collider->SetCollisionProfileName("EventTrigger");
 		}
 		else
