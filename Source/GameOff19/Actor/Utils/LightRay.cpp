@@ -17,7 +17,7 @@ ALightRay::ALightRay()
 	PrimaryActorTick.bCanEverTick = true;
 
 	SM_Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
-	SM_Mesh->SetCollisionProfileName("NoCollision");
+	SM_Mesh->SetCollisionProfileName("Ray");
 	RootComponent = SM_Mesh;
 	SM_Mesh->SetWorldScale3D(FVector(0.2));
 }
@@ -60,20 +60,23 @@ void ALightRay::BeginPlay()
 void ALightRay::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	FHitResult Hit = RecalculateRayLenght();
+	
+	RecalculateRayLenght();
 
 }
+
 
 FHitResult ALightRay::RecalculateRayLenght()
 {
 	FHitResult Hit; 
 	if (RayTrace(Hit))
 	{
-		FVector CurrentScale = GetActorScale3D(); 
-		CurrentScale.Z = Hit.Distance/100; 
-		SetActorScale3D(CurrentScale); 
+		FVector CurrentScale = GetActorScale3D();
+		//CurrentScale.Z = (Hit.Distance / 100) + 0.1;
+		CurrentScale.Z = (Hit.Distance + CurrentScale.X*50) / 100;
+		SetActorScale3D(CurrentScale);
 	}
-
+			
 	return Hit; 
 }
 
@@ -82,10 +85,10 @@ FHitResult ALightRay::RecalculateRayLenght()
 bool ALightRay::RayTrace(FHitResult & OutHit)
 {
 	FVector StartPoint = GetActorLocation(); 
-	FVector EndPoint = StartPoint + GetActorUpVector() * LIGHT_MAXIMUM_DISTANCE; 
+
+	FVector EndPoint =  StartPoint + GetActorUpVector() * LIGHT_MAXIMUM_DISTANCE;
 	ECollisionChannel Channel = ECollisionChannel::ECC_GameTraceChannel3; //RayTrace Trace created on physics channels 
-	FCollisionQueryParams CQP; CQP.bFindInitialOverlaps = false; 
-	CQP.AddIgnoredActor(this);
+	FCollisionQueryParams CQP; CQP.bFindInitialOverlaps = false; CQP.AddIgnoredActor(this);
 	FCollisionResponseParams CRP; 
 
 	bool bHasImpact = GetWorld()->LineTraceSingleByChannel(OutHit, StartPoint, EndPoint,Channel, CQP,CRP);
