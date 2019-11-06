@@ -6,11 +6,39 @@
 #include "GameFramework/Actor.h"
 #include "LightRay.generated.h"
 
-UENUM(BlueprintType)
-enum class ERayCollision : uint8
+USTRUCT(BlueprintType)
+struct FReflectionData
 {
-	IGNORE UMETA(DisplayName ="Rays Ignores"),
-	MERGE UMETA(DisplayName ="Rays Merges")
+	GENERATED_BODY()
+public:
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		FVector ImpactPoint; 
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		FVector Normal; 
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		FVector ReflectedDirection;
+
+	FReflectionData()
+	{
+
+	}
+
+	FReflectionData(FVector Impact, FVector Normal)
+	: ImpactPoint(Impact),Normal(Normal)
+	{}
+
+	bool operator== (const FReflectionData & B)
+	{
+		return ImpactPoint.Equals(B.ImpactPoint) && Normal.Equals(B.Normal);
+	}
+
+	bool operator!=(const FReflectionData & B)
+	{
+		return !ImpactPoint.Equals(B.ImpactPoint) || !Normal.Equals(B.Normal);
+	}
+
+	void Debug(UWorld * World);
+
 };
 
 UCLASS()
@@ -27,6 +55,9 @@ public: /*Editor functions */
 #if WITH_EDITOR
 	//Function fired when actor is moved while in editor.
 	virtual void PostEditMove(bool bFinished) override;
+
+	virtual void PostEditChangeProperty(FPropertyChangedEvent & PropertyChangedEvent) override; 
+
 #endif
 
 public:	/*Runtime Functions */
@@ -34,14 +65,22 @@ public:	/*Runtime Functions */
 	ALightRay();
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void BeginDestroy()override; 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	FHitResult RecalculateRayLenght();
 
+	void SetRelfectionIndex(int32 index) { ReflectionIndex = index; }
+
 private: 
 	bool RayTrace(FHitResult & OutHit);
+
+	void ReflectLight(const FVector & ImpactPoint, const FVector & Normal);
+
+	ALightRay * SpawnReflectedLight(const FVector & ImpactPoint, const FVector & Direction); 
 
 /*Atributes*/
 protected: 
@@ -49,13 +88,28 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, meta=(DisplayName = "Mesh"))
 		class UStaticMeshComponent * SM_Mesh; 
 
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Ray Properties")
-		ERayCollision CollisionType;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ray Properties")
+		float RayRadius = 1;
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Ray Properties | Debug", meta=(DisplayName = "Initial Scale"))
-		FVector OriginalScaleFactor; 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ray Properties | Reflection")
+		int32 ReflectionIndex = 0;
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Ray Properties | Reflection")
+		FReflectionData CurrentReflection;
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Ray Properties | Reflection")
+		ALightRay * ReflectedRay;
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Ray Properties | Debug", meta = (DisplayName = "Initial Scale"))
+		FVector OriginalScaleFactor;
+
+
+
+
 private: 
 
-	const int32 LIGHT_MAXIMUM_DISTANCE = 50000;
+	static const float RADIUS_CONSTANT; 
+	static const int32 LIGHT_MAXIMUM_DISTANCE;
+	static const int32 MAX_REFLECTIONS;
 
 };
