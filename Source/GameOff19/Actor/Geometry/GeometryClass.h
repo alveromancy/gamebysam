@@ -60,13 +60,21 @@ public:
 	UFUNCTION(BlueprintCallable)
 		float GetWeight()const { return Weight;}
 
+	UFUNCTION(BlueprintCallable)
+		EGeometryMaterial GetMaterial()const { return Material; }
+
+	UFUNCTION(BlueprintCallable)
+		EGeometryLight GetLightBehaviour()const { return MaterialLight; }
+
+	UFUNCTION(BlueprintCallable)
+		EGeometryElectricty GetElectricityBehaviour()const { return MaterialElectricity; }
+
+
+
+	virtual void BeginDestroy()override; 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-private: 
-
-
 
 protected: 
 
@@ -75,5 +83,19 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
 		float Weight;
+
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Spawner")
+		class AGeometrySpawner * Spawner; 
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
+		EGeometryMaterial Material;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
+		EGeometryElectricty MaterialElectricity;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
+		EGeometryLight MaterialLight;
+
 
 };
