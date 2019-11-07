@@ -2,6 +2,9 @@
 
 
 #include "GeometrySpawner.h"
+#include "TimerManager.h"
+#include "Engine/World.h"
+#include "GameOff19/Actor/Geometry/GeometryClass.h"
 
 // Sets default values
 AGeometrySpawner::AGeometrySpawner()
@@ -15,16 +18,34 @@ AGeometrySpawner::AGeometrySpawner()
 void AGeometrySpawner::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	for (int32 i = 0; i < CubesToSpawn.Num(); i++)
+		SpawnQueue.Add(CubesToSpawn[i].GetDefaultObject()); 
+
+
+	if (SpawnQueue.Num())
+		GetWorld()->GetTimerManager().SetTimer(SpawnTimer, this, &AGeometrySpawner::TimerEvent, TimeBetweenSpawn, true, TimeBetweenSpawn);
+
 }
 
-void AGeometrySpawner::CubeDestroyed(TSubclassOf<class AGeometryClass>)
+void AGeometrySpawner::CubeDestroyed(AGeometryClass * DestroyedCube, bool bShouldRespawn)
+{
+	if (bShouldRespawn)
+	{
+		//AGeometryClass * newCube = GetWorld()->SpawnActorDeferred<AGeometryClass>()
+		//AddCubeToSpawnQueue(DestroyedCube);
+	}
+		
+
+}
+
+
+void AGeometrySpawner::SpawnCube(AGeometryClass * Cube)
 {
 
 }
 
-
-void AGeometrySpawner::SpawnCube(TSubclassOf<class AGeometryClass>)
+void AGeometrySpawner::TimerEvent()
 {
 
 }

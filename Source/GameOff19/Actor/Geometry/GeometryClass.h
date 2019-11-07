@@ -45,6 +45,44 @@ enum class EGeometryLight : uint8
 	ABSORB UMETA(DisplayName = "Absorbs light")
 };
 
+
+USTRUCT(BlueprintType)
+struct FGeometryMaterialProperties
+{
+	GENERATED_BODY()
+
+		UPROPERTY(BlueprintReadWrite)
+		EGeometryMaterial Material;
+
+	UPROPERTY(BlueprintReadWrite)
+		EGeometryElectricty MaterialElectricity;
+
+	UPROPERTY(BlueprintReadWrite)
+		EGeometryLight MaterialLight;
+
+	UPROPERTY(BlueprintReadWrite)
+		float Weight;
+
+	FGeometryMaterialProperties();
+	FGeometryMaterialProperties(const class AGeometryClass * Cube);
+
+};
+
+USTRUCT(BlueprintType)
+struct FGeometryDataSheet : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		EGeometryMaterial Material;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		TArray< class UMaterial * > Materials; 
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+		TArray< class UStaticMesh *> Meshes; 
+};
+
 UCLASS()
 class GAMEOFF19_API AGeometryClass : public AActor
 {
@@ -53,6 +91,8 @@ class GAMEOFF19_API AGeometryClass : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AGeometryClass();
+
+
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -69,12 +109,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 		EGeometryElectricty GetElectricityBehaviour()const { return MaterialElectricity; }
 
+	
 
-
+	void Internal_BuildFromParams(const FGeometryMaterialProperties & Properties);
 	virtual void BeginDestroy()override; 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+private: 
+
+	void Internal_SetVisualsFromDataTable(); 
 
 protected: 
 
@@ -84,18 +129,23 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
 		float Weight;
 
-
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Spawner")
 		class AGeometrySpawner * Spawner; 
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryMaterial Material;
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryElectricty MaterialElectricity;
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryLight MaterialLight;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
+		bool bCanRespawn = true; 
+
+	UDataTable * GeometryTableReference; 
 
 };
+
+
