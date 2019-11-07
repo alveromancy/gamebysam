@@ -15,10 +15,9 @@ AGeometryClass::AGeometryClass()
 
 	SM_Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh"); 
 	RootComponent = SM_Mesh; 
-	SM_Mesh->SetCollisionProfileName("NoCollision");
-	//SM_Mesh->OnComponentHit.AddDynamic(this, &AGeometryClass::CollisionHandle);
-
-
+	SM_Mesh->SetCollisionProfileName("PhysicsActor");
+	SM_Mesh->SetSimulatePhysics(true);
+	SM_Mesh->SetMassOverrideInKg(NAME_None, Weight,true); 
 }
 
 // Called when the game starts or when spawned
