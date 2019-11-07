@@ -88,13 +88,13 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Spawner")
 		class AGeometrySpawner * Spawner; 
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryMaterial Material;
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryElectricty MaterialElectricity;
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryLight MaterialLight;
 
 
