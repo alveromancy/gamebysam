@@ -14,20 +14,35 @@ class GAMEOFF19_API AGeometrySpawner : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AGeometrySpawner();
-
-	void CubeDestroyed(TSubclassOf<class AGeometryClass>);
+	UFUNCTION(BlueprintCallable)
+	void CubeDestroyed(class AGeometryClass * destroyed , bool bShouldRespawn = true);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable)
+	void SpawnCube(class AGeometryClass * CubeToSpawn);
+	
 private: 
 
-	void SpawnCube(TSubclassOf<class AGeometryClass>);
+	void TimerEvent();
+	void AddCubeToSpawnQueue(class AGeometryClass * Cube); 
 protected: 
 
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
+		bool bCanSpawn = true;
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Spawner")
+		float TimeBetweenSpawn = 1.5f;
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
 		TArray< TSubclassOf<class AGeometryClass> > CubesToSpawn; 
 
+
+	TArray< class AGeometryClass *> SpawnQueue; 
+	FTimerHandle SpawnTimer; 
+	
+
+	
 
 };
