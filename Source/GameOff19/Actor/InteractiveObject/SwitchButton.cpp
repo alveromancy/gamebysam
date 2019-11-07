@@ -12,9 +12,29 @@ ASwitchButton::ASwitchButton() {
 	desiredState = false;
 	isToggle = false;
 	hasTimer = false;
-	countdownTime = 0.0f;
+	countdownTime = 0.f;
 	timeOutState = false;
+
+	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 }
+
+#if WITH_EDITOR
+void ASwitchButton::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) {
+
+	if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(ASwitchButton, isToggle))
+	{
+		if (!isToggle)
+			desiredState = false;
+	}
+	if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(ASwitchButton, hasTimer))
+	{
+		if (!hasTimer) {
+			countdownTime = 0.f;
+			timeOutState = false;
+		}
+	}
+}
+#endif
 
 // Called when the game starts or when spawned
 void ASwitchButton::BeginPlay() {
@@ -53,8 +73,8 @@ void ASwitchButton::TimerFinished() {
 }
 
 //Interaction
-void ASwitchButton::Interact_Implementation() {
-	
+EInteractType ASwitchButton::Interact_Implementation() {
+
 	//State
 	if (isToggle)
 		ToggleState();
@@ -65,20 +85,21 @@ void ASwitchButton::Interact_Implementation() {
 		StartTimer();
 
 	//Animation IK
+	return EInteractType::Socket;
 }
 
 FVector ASwitchButton::GetLeftInteractPoint_Implementation() const {
-	FTransform socketTransform;
-	if (leftHandSocket->GetSocketTransform(socketTransform, meshComponent))
-		return socketTransform.GetLocation();
+	if (mesh)
+		return mesh->GetSocketLocation(leftHandSocket);
 	else
 		return GetActorLocation();
 }
 
 FVector ASwitchButton::GetRightInteractPoint_Implementation() const {
-	FTransform socketTransform;
-	if (leftHandSocket->GetSocketTransform(socketTransform, meshComponent))
-		return socketTransform.GetLocation();
+	if (mesh)
+	{
+		return 	mesh->GetSocketLocation(rightHandSocket);
+	}
 	else
 		return GetActorLocation();
 }

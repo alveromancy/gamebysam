@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "Enums/InteractEnums.h"
 #include "IInteractable.generated.h"
 
 // This class does not need to be modified.
@@ -23,7 +24,7 @@ class GAMEOFF19_API IIInteractable
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category=Interactable)
-	void Interact();
+	EInteractType Interact();
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category=Interactable)
 	FVector GetLeftInteractPoint() const;
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category=Interactable)
