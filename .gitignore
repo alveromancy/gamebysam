@@ -1,12 +1,13 @@
 #UE4 folders
-
+Binaries
 DerivedDataCache
 Intermediate
 Saved
 
 #Custom folders
 
-Content/WhiteRoom
+Content/TestingAleix
+Content/Test
 
 
 #Visual Studio
