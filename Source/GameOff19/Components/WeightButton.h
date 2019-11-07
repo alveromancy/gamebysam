@@ -44,7 +44,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAcces = "True"))
 		class UStaticMeshComponent* SM_Mesh; 
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Activation | Debug")
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Activation")
 		bool bIsActivated = false;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Activation")
