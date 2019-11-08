@@ -8,7 +8,7 @@
 #include "IInteractable.generated.h"
 
 // This class does not need to be modified.
-UINTERFACE(BlueprintType)
+UINTERFACE(Blueprintable)
 class UIInteractable : public UInterface
 {
 	GENERATED_BODY()
@@ -24,7 +24,7 @@ class GAMEOFF19_API IIInteractable
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category=Interactable)
-	EInteractType Interact();
+	void Interact(EInteractType& interactType, EHandIKType& handIKType);
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category=Interactable)
 	FVector GetLeftInteractPoint() const;
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category=Interactable)

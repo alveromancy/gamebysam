@@ -51,8 +51,8 @@ public:
 		FSwitchSignature OnTimerFinished;
 	//Interaction
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
-		EInteractType Interact();
-	virtual EInteractType Interact_Implementation() override;
+		void Interact(EInteractType& interactType, EHandIKType& handIKType);
+	virtual void Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType) override;
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
 		FVector GetLeftInteractPoint() const;
 	virtual FVector GetLeftInteractPoint_Implementation() const override;

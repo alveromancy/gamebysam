@@ -53,8 +53,8 @@ void ASwitchButton::ToggleState() {
 		OnToggle.Broadcast();
 }
 
-void ASwitchButton::SwitchStateTo(bool desiredState) {
-	state = desiredState;
+void ASwitchButton::SwitchStateTo(bool DesiredState) {
+	state = DesiredState;
 	if (OnStateChange.IsBound())
 		OnStateChange.Broadcast();
 }
@@ -73,7 +73,7 @@ void ASwitchButton::TimerFinished() {
 }
 
 //Interaction
-EInteractType ASwitchButton::Interact_Implementation() {
+void ASwitchButton::Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType) {
 
 	//State
 	if (isToggle)
@@ -84,8 +84,8 @@ EInteractType ASwitchButton::Interact_Implementation() {
 	if (hasTimer)
 		StartTimer();
 
-	//Animation IK
-	return EInteractType::Socket;
+	interactType = EInteractType::Interact;
+	handIKType = EHandIKType::Socket;
 }
 
 FVector ASwitchButton::GetLeftInteractPoint_Implementation() const {

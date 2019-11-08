@@ -8,7 +8,13 @@
 
 UENUM(BlueprintType)
 enum class EInteractType : uint8 {
-	Bone,
+	Interact,
+	PickUp
+};
+
+UENUM(BlueprintType)
+enum class EHandIKType : uint8 {
+	Trace,
 	Socket
 };
 

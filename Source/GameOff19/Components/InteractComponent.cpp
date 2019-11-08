@@ -13,8 +13,9 @@ bool UInteractComponent::Interact() {
 	{
 		if (hitResult.Actor.Get()->GetClass()->ImplementsInterface(UIInteractable::StaticClass()))
 		{
-			interactType = IIInteractable::Execute_Interact(hitResult.Actor.Get());
+			IIInteractable::Execute_Interact(hitResult.Actor.Get(), interactType, handIKType);
 			currentInteractable = hitResult.Actor.Get();
+			hitResult.Actor.Get()->AttachToComponent(GetOwner()->FindComponentByClass<USkeletalMeshComponent>(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, interactSocketName);
 			return true;
 		}
 	}
@@ -24,7 +25,7 @@ bool UInteractComponent::Interact() {
 
 FVector UInteractComponent::GetInteractPoint(const EHandType hand) {
 	
-	if (interactType == EInteractType::Bone) {
+	if (handIKType == EHandIKType::Trace) {
 		FHitResult hitResult;
 		FVector tracePos = GetOwner()->FindComponentByClass<USkeletalMeshComponent>()->GetSocketLocation(hand == EHandType::Left ? leftBoneName : rightBoneName);
 		FVector traceEnd = tracePos + GetOwner()->GetActorForwardVector() * distance;

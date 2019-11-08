@@ -22,6 +22,9 @@ public:
 		FVector GetInteractPoint(const EHandType hand);
 
 public:
+	/*Socket that interacted object will be attached to*/
+	UPROPERTY(EditDefaultsOnly, Category = Interact)
+		FName interactSocketName;
 	/*The offset for interaction*/
 	UPROPERTY(EditDefaultsOnly, Category = Interact)
 		FVector offset;
@@ -41,4 +44,6 @@ public:
 		AActor* currentInteractable;
 	UPROPERTY(BlueprintReadOnly, Category = Interact)
 		EInteractType interactType;
+	UPROPERTY(BlueprintReadOnly, Category = Interact)
+		EHandIKType handIKType;
 };
