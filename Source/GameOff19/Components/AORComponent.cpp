@@ -3,7 +3,7 @@
 UAORComponent::UAORComponent() {
 	state = EAOR::Receiver;
 }
-
+#if WITH_EDITOR
 void UAORComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) {
 	
 	if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(UAORComponent, state))
@@ -13,7 +13,7 @@ void UAORComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyChange
 		}
 	}
 }
-
+#endif
 void UAORComponent::Send_Implementation() {
 	
 	UAORComponent* aor;
