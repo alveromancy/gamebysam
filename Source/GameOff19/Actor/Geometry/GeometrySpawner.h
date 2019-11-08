@@ -15,30 +15,31 @@ public:
 	// Sets default values for this actor's properties
 	AGeometrySpawner();
 	UFUNCTION(BlueprintCallable)
-	void CubeDestroyed(class AGeometryClass * destroyed , bool bShouldRespawn = true);
+	void CubeDestroyed(class AGeometryClass * destroyed);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UFUNCTION(BlueprintCallable)
-	void SpawnCube(class AGeometryClass * CubeToSpawn);
-	
 private: 
+	
+	void Internal_Init();
 
+	void SpawnCube(class AGeometryClass * CubeToSpawn);
 	void TimerEvent();
-	void AddCubeToSpawnQueue(class AGeometryClass * Cube); 
 protected: 
 
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
 		bool bCanSpawn = true;
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Spawner")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
 		float TimeBetweenSpawn = 1.5f;
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner", meta = (DisplayName = "Cube Impulse"))
+		float Impulse = 2000.0f;
+
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
 		TArray< TSubclassOf<class AGeometryClass> > CubesToSpawn; 
 
-
+	UPROPERTY(VisibleAnywhere,Category = "Debug")
 	TArray< class AGeometryClass *> SpawnQueue; 
 	FTimerHandle SpawnTimer; 
 	
