@@ -45,6 +45,10 @@ enum class EGeometryLight : uint8
 	ABSORB UMETA(DisplayName = "Absorbs light")
 };
 
+
+
+
+
 UCLASS()
 class GAMEOFF19_API AGeometryClass : public AActor
 {
@@ -54,9 +58,11 @@ public:
 	// Sets default values for this actor's properties
 	AGeometryClass();
 
+
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	//Getters
 	UFUNCTION(BlueprintCallable)
 		float GetWeight()const { return Weight;}
 
@@ -69,33 +75,48 @@ public:
 	UFUNCTION(BlueprintCallable)
 		EGeometryElectricty GetElectricityBehaviour()const { return MaterialElectricity; }
 
+	//Call this function when you want to destroy the cube 
+	UFUNCTION(BlueprintCallable)
+		void DestroyCube(); 
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnDestroyCube();
 
 
-	virtual void BeginDestroy()override; 
+	void Internal_SetStatus(bool bIsAlive); 
+	void Internal_SetSpawner(class AGeometrySpawner * SpawnActor);
+	void Internal_ApplyImpulse(const FVector & Impulse); 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 
 protected: 
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Mesh")
 		class UStaticMeshComponent * SM_Mesh;
 
+	//Weight of the cube
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
 		float Weight;
-
-
+	//Reference to the spawner actor
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Spawner")
 		class AGeometrySpawner * Spawner; 
-
+	//Material 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryMaterial Material;
-
+	//Behaviour with electricity
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryElectricty MaterialElectricity;
-
+	//Behaviour with light
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryLight MaterialLight;
 
+	//Can this Cube respawn? 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
+		bool bCanRespawn = true; 
 
 };
+
+

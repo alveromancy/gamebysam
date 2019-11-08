@@ -3,7 +3,10 @@
 
 #include "GeometryClass.h"
 #include "Components/StaticMeshComponent.h"
+#include "GameOff19/Actor/Geometry/GeometrySpawner.h"
 #include "Components/CapsuleComponent.h"
+
+
 
 
 
@@ -17,14 +20,36 @@ AGeometryClass::AGeometryClass()
 	RootComponent = SM_Mesh; 
 	SM_Mesh->SetCollisionProfileName("PhysicsActor");
 	SM_Mesh->SetSimulatePhysics(true);
-	SM_Mesh->SetMassOverrideInKg(NAME_None, Weight,true); 
+	
+}
+
+void AGeometryClass::Internal_SetSpawner(class AGeometrySpawner * SpawnActor)
+{
+	Spawner = SpawnActor;
+}
+
+void AGeometryClass::Internal_SetStatus(bool bIsAlive)
+{
+	
+	SetActorEnableCollision(bIsAlive);
+
+	SetActorHiddenInGame(!bIsAlive);
+
+	SM_Mesh->SetSimulatePhysics(bIsAlive);
+
+}
+
+
+void AGeometryClass::Internal_ApplyImpulse(const FVector & Impulse)
+{
+	SM_Mesh->AddImpulse(Impulse);
 }
 
 // Called when the game starts or when spawned
 void AGeometryClass::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	SM_Mesh->SetMassOverrideInKg(NAME_None, Weight * 100, true);
 }
 
 // Called every frame
@@ -34,8 +59,13 @@ void AGeometryClass::Tick(float DeltaTime)
 
 }
 
-void AGeometryClass::BeginDestroy()
+void AGeometryClass::DestroyCube()
 {
-	Super::BeginDestroy();
+	OnDestroyCube();
+
+	if (Spawner && bCanRespawn)
+		Spawner->CubeDestroyed(this);
+	else
+		Destroy(); 
 }
 
