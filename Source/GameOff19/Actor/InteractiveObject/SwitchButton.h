@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Engine/StaticMeshSocket.h"
 #include "TimerManager.h"
 #include "Interfaces/IInteractable.h"
 #include "SwitchButton.generated.h"
@@ -18,7 +17,9 @@ class GAMEOFF19_API ASwitchButton : public AActor, public IIInteractable {
 public:
 	// Sets default values for this actor's properties
 	ASwitchButton();
-
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -48,8 +49,8 @@ public:
 		FSwitchSignature OnTimerFinished;
 	//Interaction
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
-		void Interact();
-	virtual void Interact_Implementation() override;
+		void Interact(EInteractType& interactType, EHandIKType& handIKType);
+	virtual void Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType) override;
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
 		FVector GetLeftInteractPoint() const;
 	virtual FVector GetLeftInteractPoint_Implementation() const override;
@@ -74,12 +75,12 @@ public:
 		bool timeOutState;
 
 	//Interaction
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interactable)
+		class UStaticMeshComponent* mesh;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Interactable)
-		UStaticMeshComponent* meshComponent;
+		FName leftHandSocket;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Interactable)
-		UStaticMeshSocket* leftHandSocket;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Interactable)
-		UStaticMeshSocket* rightHandSocket;
+		FName rightHandSocket;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = Switch)

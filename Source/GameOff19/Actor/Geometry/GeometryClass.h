@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Engine/DataTable.h"
+#include "GameOff19/Interfaces/IInteractable.h"
 #include "GeometryClass.generated.h"
 
 
@@ -46,45 +47,11 @@ enum class EGeometryLight : uint8
 };
 
 
-USTRUCT(BlueprintType)
-struct FGeometryMaterialProperties
-{
-	GENERATED_BODY()
 
-		UPROPERTY(BlueprintReadWrite)
-		EGeometryMaterial Material;
 
-	UPROPERTY(BlueprintReadWrite)
-		EGeometryElectricty MaterialElectricity;
-
-	UPROPERTY(BlueprintReadWrite)
-		EGeometryLight MaterialLight;
-
-	UPROPERTY(BlueprintReadWrite)
-		float Weight;
-
-	FGeometryMaterialProperties();
-	FGeometryMaterialProperties(const class AGeometryClass * Cube);
-
-};
-
-USTRUCT(BlueprintType)
-struct FGeometryDataSheet : public FTableRowBase
-{
-	GENERATED_BODY()
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		EGeometryMaterial Material;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		TArray< class UMaterial * > Materials; 
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		TArray< class UStaticMesh *> Meshes; 
-};
 
 UCLASS()
-class GAMEOFF19_API AGeometryClass : public AActor
+class GAMEOFF19_API AGeometryClass : public AActor , public IIInteractable
 {
 	GENERATED_BODY()
 	
@@ -92,11 +59,15 @@ public:
 	// Sets default values for this actor's properties
 	AGeometryClass();
 
+	//Interface methods
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
+		void Interact(EInteractType& interactType, EHandIKType& handIKType);
+	void Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType);
 
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	//Getters
 	UFUNCTION(BlueprintCallable)
 		float GetWeight()const { return Weight;}
 
@@ -109,42 +80,47 @@ public:
 	UFUNCTION(BlueprintCallable)
 		EGeometryElectricty GetElectricityBehaviour()const { return MaterialElectricity; }
 
-	
+	//Call this function when you want to destroy the cube 
+	UFUNCTION(BlueprintCallable)
+		void DestroyCube(); 
 
-	void Internal_BuildFromParams(const FGeometryMaterialProperties & Properties);
-	virtual void BeginDestroy()override; 
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnDestroyCube();
+
+
+	void Internal_SetStatus(bool bIsAlive); 
+	void Internal_SetSpawner(class AGeometrySpawner * SpawnActor);
+	void Internal_ApplyImpulse(const FVector & Impulse); 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-private: 
-
-	void Internal_SetVisualsFromDataTable(); 
 
 protected: 
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Mesh")
 		class UStaticMeshComponent * SM_Mesh;
 
+	//Weight of the cube
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
 		float Weight;
-
+	//Reference to the spawner actor
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Spawner")
 		class AGeometrySpawner * Spawner; 
-
+	//Material 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryMaterial Material;
-
+	//Behaviour with electricity
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryElectricty MaterialElectricity;
-
+	//Behaviour with light
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryLight MaterialLight;
 
+	//Can this Cube respawn? 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
 		bool bCanRespawn = true; 
-
-	UDataTable * GeometryTableReference; 
 
 };
 

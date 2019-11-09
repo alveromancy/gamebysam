@@ -8,23 +8,6 @@
 
 
 
-FGeometryMaterialProperties::FGeometryMaterialProperties()
-{
-	Weight = 5.0f; 
-}
-
-FGeometryMaterialProperties::FGeometryMaterialProperties(const AGeometryClass * Cube)
-{
-	if (Cube)
-	{
-		Weight = Cube->GetWeight();
-		Material = Cube->GetMaterial();
-		MaterialLight = Cube->GetLightBehaviour();
-		MaterialElectricity = Cube->GetElectricityBehaviour();
-	}
-	else
-		Weight = 5.0f; 
-}
 
 
 // Sets default values
@@ -37,17 +20,44 @@ AGeometryClass::AGeometryClass()
 	RootComponent = SM_Mesh; 
 	SM_Mesh->SetCollisionProfileName("PhysicsActor");
 	SM_Mesh->SetSimulatePhysics(true);
-	
+		
+}
+
+void AGeometryClass::Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType)
+{
+	interactType = EInteractType::PickUp;
+	EHandIKType::Trace; 
+	SM_Mesh->SetSimulatePhysics( !SM_Mesh->IsSimulatingPhysics());
 }
 
 
+void AGeometryClass::Internal_SetSpawner(class AGeometrySpawner * SpawnActor)
+{
+	Spawner = SpawnActor;
+}
 
+void AGeometryClass::Internal_SetStatus(bool bIsAlive)
+{
+	
+	SetActorEnableCollision(bIsAlive);
+
+	SetActorHiddenInGame(!bIsAlive);
+
+	SM_Mesh->SetSimulatePhysics(bIsAlive);
+
+}
+
+
+void AGeometryClass::Internal_ApplyImpulse(const FVector & Impulse)
+{
+	SM_Mesh->AddImpulse(Impulse);
+}
 
 // Called when the game starts or when spawned
 void AGeometryClass::BeginPlay()
 {
 	Super::BeginPlay();
-	SM_Mesh->SetMassOverrideInKg(NAME_None, Weight, true);
+	SM_Mesh->SetMassOverrideInKg(NAME_None, Weight * 100, true);
 }
 
 // Called every frame
@@ -57,34 +67,13 @@ void AGeometryClass::Tick(float DeltaTime)
 
 }
 
-void AGeometryClass::BeginDestroy()
+void AGeometryClass::DestroyCube()
 {
-	Super::BeginDestroy();
-	if (Spawner)
-		Spawner->CubeDestroyed(this,bCanRespawn);
-}
+	OnDestroyCube();
 
-//INTERNAL FUNCTIONS
-
-void AGeometryClass::Internal_BuildFromParams(const FGeometryMaterialProperties & Properties)
-{
-	Material = Properties.Material;
-	MaterialLight = Properties.MaterialLight;
-	MaterialElectricity = Properties.MaterialElectricity;
-	Weight = Properties.Weight;
-
-	Internal_SetVisualsFromDataTable();
-}
-
-
-void AGeometryClass::Internal_SetVisualsFromDataTable()
-{
-	if (GeometryTableReference)
-	{
-
-	}
+	if (Spawner && bCanRespawn)
+		Spawner->CubeDestroyed(this);
 	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("AGeometryClass::Internal_SetVisualsFromDataTable:: DataTable is not properly set")); 
-	}
+		Destroy(); 
 }
+

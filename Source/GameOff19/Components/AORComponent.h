@@ -18,8 +18,9 @@ class GAMEOFF19_API UAORComponent : public UActorComponent {
 
 public:
 	UAORComponent();
+#if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-
+#endif
 public:
 	/*Call to activate receivers.*/
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = AOR)
