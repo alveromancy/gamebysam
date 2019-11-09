@@ -3,6 +3,8 @@
 
 #include "Math3DLib.h"
 #include "Math/UnrealMathUtility.h"
+#include "Engine/World.h"
+#include "DrawDebugHelpers.h"
 
 
 FVector UMath3DLib::CalculateReflectionRay(const FVector& RayDirection, const FVector& Normal)
@@ -28,4 +30,18 @@ FQuat UMath3DLib::CalculateQuaternionBetweenVectors(const FVector & A, const FVe
 
 	return FQuat(RotationAxis, FMath::RadiansToDegrees(degrees));
 }
+
+
+#if WITH_EDITOR
+
+void  UMath3DLib::DebugVisualRay(const UWorld * World, const FVector & Origin, const FVector & End, const FColor & Color, float lifetime)
+{
+
+	if (lifetime > 0)
+		DrawDebugLine(World, Origin, End, Color, true);
+	else
+		DrawDebugLine(World, Origin, End, Color,false, lifetime, 1, 5.0f);
+}
+
+#endif // WITH_EDITOR
 
