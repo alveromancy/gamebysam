@@ -1,9 +1,6 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
-#include "Components/SkeletalMeshComponent.h"
-#include "Engine/World.h"
-#include "Interfaces/IInteractable.h"
 #include "Enums/InteractEnums.h"
 #include "InteractComponent.generated.h"
 
@@ -22,6 +19,18 @@ public:
 		FVector GetInteractPoint(const EHandType hand);
 
 public:
+	/*Type of interaction for currentInteractable*/
+	UPROPERTY(BlueprintReadOnly, Category = Interact)
+		EInteractType interactType;
+	/*Type of hand IK solution for currentInteractable*/
+	UPROPERTY(BlueprintReadOnly, Category = Interact)
+		EHandIKType handIKType;
+	/*Interaction trace channel*/
+	UPROPERTY(EditDefaultsOnly, meta=(DisplayAfter="distance"), Category = Interact)
+		TEnumAsByte<ETraceTypeQuery> interactChannel;
+	/*Current interacting object.*/
+	UPROPERTY(BlueprintReadOnly, Category = Interact)
+		AActor* currentInteractable;
 	/*Socket that interacted object will be attached to*/
 	UPROPERTY(EditDefaultsOnly, Category = Interact)
 		FName interactSocketName;
@@ -37,13 +46,4 @@ public:
 	/*Interaction distance*/
 	UPROPERTY(EditDefaultsOnly, Category = Interact)
 		float distance;
-	/*Interaction trace channel*/
-	UPROPERTY(EditDefaultsOnly, Category = Interact)
-		TEnumAsByte<ETraceTypeQuery> interactChannel;
-	UPROPERTY(BlueprintReadOnly, Category = Interact)
-		AActor* currentInteractable;
-	UPROPERTY(BlueprintReadOnly, Category = Interact)
-		EInteractType interactType;
-	UPROPERTY(BlueprintReadOnly, Category = Interact)
-		EHandIKType handIKType;
 };

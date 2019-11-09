@@ -2,6 +2,8 @@
 
 
 #include "SwitchButton.h"
+#include "Engine/StaticMeshSocket.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 ASwitchButton::ASwitchButton() {
@@ -89,17 +91,25 @@ void ASwitchButton::Interact_Implementation(EInteractType& interactType, EHandIK
 }
 
 FVector ASwitchButton::GetLeftInteractPoint_Implementation() const {
+	
+	FVector interactPoint;
 	if (mesh)
-		return mesh->GetSocketLocation(leftHandSocket);
+		interactPoint = mesh->GetSocketLocation(leftHandSocket);
 	else
-		return GetActorLocation();
+		interactPoint = GetActorLocation();
+
+	return interactPoint;
 }
 
 FVector ASwitchButton::GetRightInteractPoint_Implementation() const {
+	
+	FVector interactPoint;
 	if (mesh)
 	{
-		return 	mesh->GetSocketLocation(rightHandSocket);
+		interactPoint = mesh->GetSocketLocation(rightHandSocket);
 	}
 	else
-		return GetActorLocation();
+		interactPoint = GetActorLocation();
+
+	return interactPoint;
 }

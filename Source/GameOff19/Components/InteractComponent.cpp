@@ -1,30 +1,51 @@
 #include "InteractComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Interfaces/IInteractable.h"
+#include "Engine/World.h"
 
 UInteractComponent::UInteractComponent() {
 
 }
 
 bool UInteractComponent::Interact() {
-	FHitResult hitResult;
-	FVector tracePos = GetOwner()->GetActorLocation() + offset;
-	FVector traceEnd = tracePos + GetOwner()->GetActorForwardVector() * distance;
-	ECollisionChannel channel = UEngineTypes::ConvertToCollisionChannel(interactChannel);
-	if (GetWorld()->LineTraceSingleByChannel(hitResult, tracePos, traceEnd, channel))
-	{
-		if (hitResult.Actor.Get()->GetClass()->ImplementsInterface(UIInteractable::StaticClass()))
+	
+	bool isSuccessful = false;
+
+	if (currentInteractable == nullptr) {
+		FHitResult hitResult;
+		FVector tracePos = GetOwner()->GetActorLocation() + offset;
+		FVector traceEnd = tracePos + GetOwner()->GetActorForwardVector() * distance;
+		ECollisionChannel channel = UEngineTypes::ConvertToCollisionChannel(interactChannel);
+		if (GetWorld()->LineTraceSingleByChannel(hitResult, tracePos, traceEnd, channel))
 		{
-			IIInteractable::Execute_Interact(hitResult.Actor.Get(), interactType, handIKType);
 			currentInteractable = hitResult.Actor.Get();
-			hitResult.GetActor()->AttachToComponent(GetOwner()->FindComponentByClass<USkeletalMeshComponent>(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, interactSocketName);
-			return true;
+			if (currentInteractable->GetClass()->ImplementsInterface(UIInteractable::StaticClass()))
+			{
+				IIInteractable::Execute_Interact(currentInteractable, interactType, handIKType);
+				if (interactType == EInteractType::PickUp) {
+					USkeletalMeshComponent* mesh = GetOwner()->FindComponentByClass<USkeletalMeshComponent>();
+					ensureAlwaysMsgf(mesh->DoesSocketExist(interactSocketName), TEXT("Socket is invalid!"));
+					currentInteractable->AttachToComponent(mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, interactSocketName);
+				}
+				else {
+					currentInteractable = nullptr;
+				}
+				isSuccessful = true;
+			}
 		}
 	}
-
-	return false;
+	else {
+		currentInteractable->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		IIInteractable::Execute_Interact(currentInteractable, interactType, handIKType);
+		currentInteractable = nullptr;
+		isSuccessful = true;
+	}
+	return isSuccessful;
 }
 
 FVector UInteractComponent::GetInteractPoint(const EHandType hand) {
 	
+	FVector interactPoint;
 	if (handIKType == EHandIKType::Trace) {
 		FHitResult hitResult;
 		FVector tracePos = GetOwner()->FindComponentByClass<USkeletalMeshComponent>()->GetSocketLocation(hand == EHandType::Left ? leftBoneName : rightBoneName);
@@ -34,18 +55,20 @@ FVector UInteractComponent::GetInteractPoint(const EHandType hand) {
 		if (GetWorld()->LineTraceSingleByChannel(hitResult, tracePos, traceEnd, channel))
 		{
 			//Position hand at impact point
-			return hitResult.ImpactPoint;
+			interactPoint = hitResult.ImpactPoint;
 		}
 		else {
-			return FVector();
+			interactPoint = FVector();
 		}
 	}
 	else {
 		if (hand == EHandType::Left) {
-			return IIInteractable::Execute_GetLeftInteractPoint(currentInteractable);
+			interactPoint = IIInteractable::Execute_GetLeftInteractPoint(currentInteractable);
 		}
 		else {
-			return IIInteractable::Execute_GetRightInteractPoint(currentInteractable);
+			interactPoint = IIInteractable::Execute_GetRightInteractPoint(currentInteractable);
 		}
 	}
+
+	return interactPoint;
 }

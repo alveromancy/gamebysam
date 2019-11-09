@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Engine/DataTable.h"
+#include "GameOff19/Interfaces/IInteractable.h"
 #include "GeometryClass.generated.h"
 
 
@@ -50,7 +51,7 @@ enum class EGeometryLight : uint8
 
 
 UCLASS()
-class GAMEOFF19_API AGeometryClass : public AActor
+class GAMEOFF19_API AGeometryClass : public AActor , public IIInteractable
 {
 	GENERATED_BODY()
 	
@@ -58,7 +59,11 @@ public:
 	// Sets default values for this actor's properties
 	AGeometryClass();
 
+	//Interface methods
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
+		void Interact(EInteractType& interactType, EHandIKType& handIKType);
 
+	void Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType);
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
