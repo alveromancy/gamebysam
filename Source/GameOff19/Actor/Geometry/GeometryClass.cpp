@@ -23,6 +23,12 @@ AGeometryClass::AGeometryClass()
 	
 }
 
+void AGeometryClass::Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType)
+{
+	SM_Mesh->SetSimulatePhysics( !SM_Mesh->IsSimulatingPhysics());
+}
+
+
 void AGeometryClass::Internal_SetSpawner(class AGeometrySpawner * SpawnActor)
 {
 	Spawner = SpawnActor;
