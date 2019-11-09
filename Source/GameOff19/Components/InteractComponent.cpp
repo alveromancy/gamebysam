@@ -15,7 +15,7 @@ bool UInteractComponent::Interact() {
 		{
 			IIInteractable::Execute_Interact(hitResult.Actor.Get(), interactType, handIKType);
 			currentInteractable = hitResult.Actor.Get();
-			hitResult.Actor.Get()->AttachToComponent(GetOwner()->FindComponentByClass<USkeletalMeshComponent>(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, interactSocketName);
+			hitResult.GetActor()->AttachToComponent(GetOwner()->FindComponentByClass<USkeletalMeshComponent>(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, interactSocketName);
 			return true;
 		}
 	}
