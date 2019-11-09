@@ -4,8 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Components/StaticMeshComponent.h"
-#include "Engine/StaticMeshSocket.h"
 #include "TimerManager.h"
 #include "Interfaces/IInteractable.h"
 #include "SwitchButton.generated.h"
@@ -77,8 +75,8 @@ public:
 		bool timeOutState;
 
 	//Interaction
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Interactable)
-		UStaticMeshComponent* mesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interactable)
+		class UStaticMeshComponent* mesh;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Interactable)
 		FName leftHandSocket;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Interactable)
