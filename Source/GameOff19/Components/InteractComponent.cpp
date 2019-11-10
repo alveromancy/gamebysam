@@ -27,9 +27,6 @@ bool UInteractComponent::Interact() {
 					ensureAlwaysMsgf(mesh->DoesSocketExist(interactSocketName), TEXT("Socket is invalid!"));
 					currentInteractable->AttachToComponent(mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, interactSocketName);
 				}
-				else {
-					currentInteractable = nullptr;
-				}
 				isSuccessful = true;
 			}
 		}
