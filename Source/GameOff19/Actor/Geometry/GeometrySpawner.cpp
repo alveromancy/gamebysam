@@ -52,6 +52,14 @@ void AGeometrySpawner::CubeDestroyed(AGeometryClass * DestroyedCube)
 }
 
 
+
+void AGeometrySpawner::SetCanSpawnFlag(bool bFlagg)
+{
+	bCanSpawn = bFlagg; 
+	if(bCanSpawn && !GetWorld()->GetTimerManager().IsTimerActive(SpawnTimer))//If the timer is stopped, fires again
+		GetWorld()->GetTimerManager().SetTimer(SpawnTimer, this, &AGeometrySpawner::TimerEvent, TimeBetweenSpawn, true, TimeBetweenSpawn);
+}
+
 void AGeometrySpawner::SpawnCube(AGeometryClass * Cube)
 {
 	FTransform SpawnTransform = GetActorTransform(); 
