@@ -27,6 +27,7 @@ AWeightButton::AWeightButton()
 
 	SM_Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh"); 
 	SM_Mesh->SetupAttachment(BC_Collider);
+	SM_Mesh->SetCollisionProfileName("NoCollision");
 }
 
 
