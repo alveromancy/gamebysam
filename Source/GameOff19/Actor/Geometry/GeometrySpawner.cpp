@@ -44,7 +44,8 @@ void AGeometrySpawner::Internal_Init()
 void AGeometrySpawner::CubeDestroyed(AGeometryClass * DestroyedCube)
 {
 	DestroyedCube->Internal_SetStatus(false); 
-	DestroyedCube->SetActorTransform( GetActorTransform() );
+	DestroyedCube->SetActorLocation( GetActorLocation() );
+
 	SpawnQueue.Add(DestroyedCube);
 	
 	if (!GetWorld()->GetTimerManager().IsTimerActive(SpawnTimer))//If the timer is stopped, fires again
@@ -64,7 +65,8 @@ void AGeometrySpawner::SpawnCube(AGeometryClass * Cube)
 {
 	FTransform SpawnTransform = GetActorTransform(); 
 	SpawnTransform.SetLocation(GetActorLocation() + FVector(FMath::RandRange(-100.0f,100.0f), FMath::RandRange(-100.0f, 100.0f),0));
-	UE_LOG(LogTemp, Log, TEXT("Spawning cube at %s"), *SpawnTransform.GetLocation().ToString()); 
+	SpawnTransform.SetScale3D(Cube->GetActorScale3D()); 
+
 	Cube->SetActorTransform(SpawnTransform);
 	Cube->Internal_SetStatus(true);
 }
