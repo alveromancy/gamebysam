@@ -17,6 +17,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CubeDestroyed(class AGeometryClass * destroyed);
 
+	UFUNCTION(BlueprintCallable)
+		void SetCanSpawnFlag(bool bFlagg);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
