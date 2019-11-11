@@ -2,6 +2,8 @@
 
 
 #include "SwitchButton.h"
+#include "Engine/StaticMeshSocket.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 ASwitchButton::ASwitchButton() {
@@ -12,9 +14,29 @@ ASwitchButton::ASwitchButton() {
 	desiredState = false;
 	isToggle = false;
 	hasTimer = false;
-	countdownTime = 0.0f;
+	countdownTime = 0.f;
 	timeOutState = false;
+
+	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 }
+
+#if WITH_EDITOR
+void ASwitchButton::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) {
+
+	if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(ASwitchButton, isToggle))
+	{
+		if (!isToggle)
+			desiredState = false;
+	}
+	if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(ASwitchButton, hasTimer))
+	{
+		if (!hasTimer) {
+			countdownTime = 0.f;
+			timeOutState = false;
+		}
+	}
+}
+#endif
 
 // Called when the game starts or when spawned
 void ASwitchButton::BeginPlay() {
@@ -33,8 +55,8 @@ void ASwitchButton::ToggleState() {
 		OnToggle.Broadcast();
 }
 
-void ASwitchButton::SwitchStateTo(bool desiredState) {
-	state = desiredState;
+void ASwitchButton::SwitchStateTo(bool DesiredState) {
+	state = DesiredState;
 	if (OnStateChange.IsBound())
 		OnStateChange.Broadcast();
 }
@@ -53,8 +75,8 @@ void ASwitchButton::TimerFinished() {
 }
 
 //Interaction
-void ASwitchButton::Interact_Implementation() {
-	
+void ASwitchButton::Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType) {
+
 	//State
 	if (isToggle)
 		ToggleState();
@@ -64,21 +86,30 @@ void ASwitchButton::Interact_Implementation() {
 	if (hasTimer)
 		StartTimer();
 
-	//Animation IK
+	interactType = EInteractType::Interact;
+	handIKType = EHandIKType::Socket;
 }
 
 FVector ASwitchButton::GetLeftInteractPoint_Implementation() const {
-	FTransform socketTransform;
-	if (leftHandSocket->GetSocketTransform(socketTransform, meshComponent))
-		return socketTransform.GetLocation();
+	
+	FVector interactPoint;
+	if (mesh)
+		interactPoint = mesh->GetSocketLocation(leftHandSocket);
 	else
-		return GetActorLocation();
+		interactPoint = GetActorLocation();
+
+	return interactPoint;
 }
 
 FVector ASwitchButton::GetRightInteractPoint_Implementation() const {
-	FTransform socketTransform;
-	if (leftHandSocket->GetSocketTransform(socketTransform, meshComponent))
-		return socketTransform.GetLocation();
+	
+	FVector interactPoint;
+	if (mesh)
+	{
+		interactPoint = mesh->GetSocketLocation(rightHandSocket);
+	}
 	else
-		return GetActorLocation();
+		interactPoint = GetActorLocation();
+
+	return interactPoint;
 }

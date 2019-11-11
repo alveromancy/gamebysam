@@ -35,4 +35,11 @@ public:
 
 		UFUNCTION(BlueprintCallable, Category = "Rotation")
 		static FQuat CalculateQuaternionBetweenVectors(const FVector & A, const FVector & B);
+
+#if WITH_EDITOR
+		UFUNCTION(BlueprintCallable, Category = "Ray")
+			static void DebugVisualRay(const UWorld * World, const FVector & Origin, const FVector & End, const FColor & Color , float lifetime = -1);
+#endif // WITH_EDITOR
+
+		
 };
