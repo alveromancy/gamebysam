@@ -18,7 +18,7 @@ AGeometryClass::AGeometryClass()
 
 	SM_Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh"); 
 	RootComponent = SM_Mesh; 
-	SM_Mesh->SetCollisionProfileName("PhysicsActor");
+	SM_Mesh->SetCollisionProfileName("Cube");
 	SM_Mesh->SetSimulatePhysics(true);
 		
 }
@@ -28,6 +28,7 @@ void AGeometryClass::Interact_Implementation(EInteractType& interactType, EHandI
 	interactType = EInteractType::PickUp;
 	EHandIKType::Trace; 
 	SM_Mesh->SetSimulatePhysics( !SM_Mesh->IsSimulatingPhysics());
+	SetActorEnableCollision(!GetActorEnableCollision());
 }
 
 

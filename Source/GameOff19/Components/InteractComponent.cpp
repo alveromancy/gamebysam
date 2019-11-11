@@ -1,7 +1,10 @@
 #include "InteractComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Camera/CameraComponent.h"
 #include "Interfaces/IInteractable.h"
+#include "GameOff19Character.h"
 #include "Engine/World.h"
+#include "DrawDebugHelpers.h"
 
 UInteractComponent::UInteractComponent() {
 
@@ -13,24 +16,28 @@ bool UInteractComponent::Interact() {
 
 	if (currentInteractable == nullptr) {
 		FHitResult hitResult;
-		FVector tracePos = GetOwner()->GetActorLocation() + offset;
-		FVector traceEnd = tracePos + GetOwner()->GetActorForwardVector() * distance;
+		AGameOff19Character* character = Cast<AGameOff19Character>(GetOwner());
+		ensureMsgf(character != nullptr, TEXT("Character can't be found!"));
+		UCameraComponent* camera = character->GetFirstPersonCameraComponent();
+		ensureMsgf(camera != nullptr, TEXT("Camera can't be found!"));
+		FVector tracePos = camera->GetComponentLocation() + offset;
+		FVector traceEnd = tracePos + camera->GetForwardVector() * distance;
 		ECollisionChannel channel = UEngineTypes::ConvertToCollisionChannel(interactChannel);
+		DrawDebugLine(GetWorld(), tracePos, traceEnd, FColor::Red, false, 5.0f, 0, 0.5f);
 		if (GetWorld()->LineTraceSingleByChannel(hitResult, tracePos, traceEnd, channel))
 		{
-			currentInteractable = hitResult.Actor.Get();
-			if (currentInteractable->GetClass()->ImplementsInterface(UIInteractable::StaticClass()))
-			{
-				IIInteractable::Execute_Interact(currentInteractable, interactType, handIKType);
-				if (interactType == EInteractType::PickUp) {
-					USkeletalMeshComponent* mesh = GetOwner()->FindComponentByClass<USkeletalMeshComponent>();
-					ensureAlwaysMsgf(mesh->DoesSocketExist(interactSocketName), TEXT("Socket is invalid!"));
-					currentInteractable->AttachToComponent(mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, interactSocketName);
+			if (hitResult.Actor.IsValid()) {
+				currentInteractable = hitResult.Actor.Get();
+				if (currentInteractable->GetClass()->ImplementsInterface(UIInteractable::StaticClass()))
+				{
+					IIInteractable::Execute_Interact(currentInteractable, interactType, handIKType);
+					if (interactType == EInteractType::PickUp) {
+						USkeletalMeshComponent* mesh = GetOwner()->FindComponentByClass<USkeletalMeshComponent>();
+						ensureAlwaysMsgf(mesh->DoesSocketExist(interactSocketName), TEXT("Socket is invalid!"));
+						currentInteractable->AttachToComponent(mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, interactSocketName);
+					}
+					isSuccessful = true;
 				}
-				else {
-					currentInteractable = nullptr;
-				}
-				isSuccessful = true;
 			}
 		}
 	}
