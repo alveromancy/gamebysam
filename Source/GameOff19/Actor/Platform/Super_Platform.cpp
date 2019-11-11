@@ -26,9 +26,9 @@ ASuper_Platform::ASuper_Platform()
 	SM_Mesh->SetRelativeLocation(FVector());
 
 
-	SC_Collider = CreateDefaultSubobject<USphereComponent>("Trigger"); 
+	SC_Collider = CreateDefaultSubobject<USphereComponent>("EventTrigger"); 
 	SC_Collider->AttachToComponent(SM_Mesh, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-
+	SC_Collider->SetCollisionProfileName("EventTrigger");
 	SC_Collider->OnComponentBeginOverlap.AddDynamic(this, &ASuper_Platform::PlayerDetected);
 	SC_Collider->OnComponentEndOverlap.AddDynamic(this, &ASuper_Platform::PlayerDetectionLost);
 
