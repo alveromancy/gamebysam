@@ -11,8 +11,8 @@ UInteractComponent::UInteractComponent() {
 }
 
 bool UInteractComponent::Interact() {
-	
-	bool isSuccessful = false;
+
+	bool isInteract = false;
 
 	if (currentInteractable == nullptr) {
 		FHitResult hitResult;
@@ -36,7 +36,7 @@ bool UInteractComponent::Interact() {
 						ensureAlwaysMsgf(mesh->DoesSocketExist(interactSocketName), TEXT("Socket is invalid!"));
 						currentInteractable->AttachToComponent(mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, interactSocketName);
 					}
-					isSuccessful = true;
+					isInteract = true;
 				}
 			}
 		}
@@ -45,37 +45,46 @@ bool UInteractComponent::Interact() {
 		currentInteractable->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 		IIInteractable::Execute_Interact(currentInteractable, interactType, handIKType);
 		currentInteractable = nullptr;
-		isSuccessful = true;
+		isInteract = false;
 	}
-	return isSuccessful;
+	return isInteract;
 }
 
 FVector UInteractComponent::GetInteractPoint(const EHandType hand) {
-	
+
 	FVector interactPoint;
-	if (handIKType == EHandIKType::Trace) {
-		FHitResult hitResult;
-		FVector tracePos = GetOwner()->FindComponentByClass<USkeletalMeshComponent>()->GetSocketLocation(hand == EHandType::Left ? leftBoneName : rightBoneName);
-		FVector traceEnd = tracePos + GetOwner()->GetActorForwardVector() * distance;
-		ECollisionChannel channel = UEngineTypes::ConvertToCollisionChannel(interactChannel);
+	if (currentInteractable != nullptr) {
+		USkeletalMeshComponent* skeletalMesh = GetOwner()->FindComponentByClass<USkeletalMeshComponent>();
+		ensureMsgf(skeletalMesh != nullptr, TEXT("Skeletal Mesh can't be found!"));
+		if (handIKType == EHandIKType::Trace) {
+			FHitResult hitResult;
+			FVector tracePos = skeletalMesh->GetSocketLocation(hand == EHandType::Left ? leftBoneName : rightBoneName);
+			FVector traceEnd = tracePos + GetOwner()->GetActorForwardVector() * distance;
+			ECollisionChannel channel = UEngineTypes::ConvertToCollisionChannel(interactChannel);
 
-		if (GetWorld()->LineTraceSingleByChannel(hitResult, tracePos, traceEnd, channel))
-		{
-			//Position hand at impact point
-			interactPoint = hitResult.ImpactPoint;
+			if (GetWorld()->LineTraceSingleByChannel(hitResult, tracePos, traceEnd, channel))
+			{
+				//Position hand at impact point
+				interactPoint = hitResult.ImpactPoint;
+			}
+			else {
+				interactPoint = FVector();
+			}
 		}
 		else {
-			interactPoint = FVector();
+			if (hand == EHandType::Left) {
+				interactPoint = IIInteractable::Execute_GetLeftInteractPoint(currentInteractable);
+				DrawDebugSphere(GetWorld(), interactPoint, 10.f, 12, FColor::Green, false, 5.0f);
+				FMatrix localToWorldInverse = FMatrix(skeletalMesh->GetComponentTransform().ToMatrixWithScale().Inverse());
+				interactPoint = localToWorldInverse.TransformPosition(interactPoint);
+			}
+			else {
+				interactPoint = IIInteractable::Execute_GetRightInteractPoint(currentInteractable);
+				DrawDebugSphere(GetWorld(), interactPoint, 10.f, 12, FColor::Cyan, false, 5.0f);
+				FMatrix localToWorldInverse = FMatrix(skeletalMesh->GetComponentTransform().ToMatrixWithScale().Inverse());
+				interactPoint = localToWorldInverse.TransformPosition(interactPoint);
+			}
 		}
 	}
-	else {
-		if (hand == EHandType::Left) {
-			interactPoint = IIInteractable::Execute_GetLeftInteractPoint(currentInteractable);
-		}
-		else {
-			interactPoint = IIInteractable::Execute_GetRightInteractPoint(currentInteractable);
-		}
-	}
-
 	return interactPoint;
 }
