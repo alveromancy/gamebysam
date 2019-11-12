@@ -19,6 +19,7 @@ AcubePanel::AcubePanel()
 
 	SM_Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	SM_Mesh->SetupAttachment(BC_Collider);
+	SM_Mesh->SetCollisionProfileName("NoCollision");
 }
 
 // Called when the game starts or when spawned
