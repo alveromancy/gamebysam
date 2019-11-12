@@ -7,27 +7,13 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/Engine.h"
+#include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "GameOff19/Library/Math3DLib.h"
 
 
 
 const int32 ALightRay::LIGHT_MAXIMUM_DISTANCE = 50000;
-const int32 ALightRay::MAX_REFLECTIONS = 1;
 const float ALightRay::RADIUS_CONSTANT = 0.1f;
-
-//Struct function
-
-void FReflectionData::Debug(UWorld * World)
-{
-#if WITH_EDITOR	
-	check(World);
-	FVector EndPoint = ImpactPoint + ReflectedDirection * 500;
-	FVector EndNormal = ImpactPoint + Normal * 500;
-	DrawDebugLine(World, ImpactPoint, EndPoint, FColor::Red, false, 0.5f, 1, 5.0f);
-	DrawDebugLine(World, ImpactPoint, EndNormal, FColor::Blue, false, 0.5f, 1, 5.0f);
-#endif
-}
-
 
 
 // Sets default values
@@ -40,6 +26,13 @@ ALightRay::ALightRay()
 	SM_Mesh->SetCollisionProfileName("Ray");
 	RootComponent = SM_Mesh;
 	SM_Mesh->SetWorldScale3D(FVector(0.2));
+
+	//Load Mesh Asset
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAssset(TEXT("StaticMesh'/Game/TestingAleix/cylinder.cylinder'"));
+	if(MeshAssset.Object)
+		SM_Mesh->SetStaticMesh(MeshAssset.Object);
+
+
 }
 
 
@@ -55,6 +48,18 @@ void ALightRay::PostActorCreated()
 
 
 #if WITH_EDITOR
+
+
+void FReflectionData::Debug(UWorld * World)
+{
+	check(World);
+	FVector EndPoint = ImpactPoint + ReflectedDirection * 500;
+	FVector EndNormal = ImpactPoint + Normal * 500;
+	DrawDebugLine(World, ImpactPoint, EndPoint, FColor::Red, false, 0.5f, 1, 5.0f);
+	DrawDebugLine(World, ImpactPoint, EndNormal, FColor::Blue, false, 0.5f, 1, 5.0f);
+
+}
+
 void ALightRay::PostEditMove(bool bFinished)
 {
 	Super::PostEditMove(bFinished);
@@ -138,7 +143,7 @@ bool ALightRay::RayTrace(FHitResult & OutHit)
 
 	FVector EndPoint =  StartPoint + GetActorUpVector() * LIGHT_MAXIMUM_DISTANCE;
 	ECollisionChannel Channel = ECollisionChannel::ECC_GameTraceChannel3; //RayTrace Trace created on physics channels 
-	FCollisionQueryParams CQP; CQP.bFindInitialOverlaps = false; CQP.AddIgnoredActor(this);
+	FCollisionQueryParams CQP; CQP.bFindInitialOverlaps = false; CQP.AddIgnoredActor(this); CQP.AddIgnoredActor(ReflectedRay); CQP.AddIgnoredActor(ParentRay);
 	FCollisionResponseParams CRP; 
 
 	bool bHasImpact = GetWorld()->LineTraceSingleByChannel(OutHit, StartPoint, EndPoint,Channel, CQP,CRP);
@@ -151,14 +156,14 @@ bool ALightRay::RayTrace(FHitResult & OutHit)
 void ALightRay::ReflectLight(const FVector & ImpactPoint, const FVector & Normal)
 {
 	FReflectionData FrameReflection(ImpactPoint, Normal);
-	if ( ReflectionIndex < MAX_REFLECTIONS && FrameReflection != CurrentReflection) //Check that our ray can reflect once more, and we are not repeating the relfection of previous frame
+	if (bCanReflect && FrameReflection != CurrentReflection) //Check that our ray can reflect once more, and we are not repeating the relfection of previous frame
 	{
-		UE_LOG(LogTemp, Log, TEXT("Reflecting the light")); 
+		UE_LOG(LogTemp, Log, TEXT("ALightRay::ReflectLight:: Calculating new reflection"));
 		FrameReflection.ReflectedDirection = UMath3DLib::CalculateReflectionRay(GetActorUpVector(), Normal);	
 		
 		if (ReflectedRay)
 			ReflectedRay->Destroy();
-		//ReflectedRay = SpawnReflectedLight(ImpactPoint, FrameReflection.ReflectedDirection);
+		ReflectedRay = SpawnReflectedLight(ImpactPoint, FrameReflection.ReflectedDirection);
 		CurrentReflection = FrameReflection;
 	}
 
@@ -168,16 +173,19 @@ void ALightRay::ReflectLight(const FVector & ImpactPoint, const FVector & Normal
 
 ALightRay * ALightRay::SpawnReflectedLight(const FVector & ImpactPoint, const FVector & Direction)
 {
-	UE_LOG(LogTemp, Log, TEXT("Spawning light"));
-	FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors(FVector(0,0,1), Direction);
-	FTransform SpawnTransform(Rotation, ImpactPoint, FVector(RayRadius*RADIUS_CONSTANT));
-	ALightRay * reflectedRay = GetWorld()->SpawnActorDeferred< ALightRay>(ALightRay::StaticClass(), SpawnTransform, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn);
-	if (reflectedRay)
+
+	
+	ALightRay * NewRay = GetWorld()->SpawnActorDeferred< ALightRay>(ALightRay::StaticClass(), FTransform(), nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+	if (NewRay)
 	{
-		reflectedRay->SetRelfectionIndex(ReflectionIndex + 1);
-		reflectedRay->FinishSpawning(SpawnTransform);
+		//Set References
+		this->ReflectedRay = NewRay; NewRay->ParentRay = this; 
+		FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors(ReflectedRay->GetActorUpVector(), Direction);
+		FTransform SpawnTransform(Rotation, ImpactPoint - GetActorUpVector(), FVector(1));
+		NewRay->FinishSpawning(SpawnTransform);
+		NewRay->SetActorScale3D(GetActorScale3D() * FVector(1,1,0.1));
 	}
 	
-	return reflectedRay;
+	return NewRay;
 }
 
