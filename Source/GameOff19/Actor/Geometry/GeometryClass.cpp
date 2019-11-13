@@ -32,6 +32,8 @@ void AGeometryClass::Interact_Implementation(EInteractType& interactType, EHandI
 	//Update control variable
 	bIsGrabbed = !bIsGrabbed;
 	//Update collision and physics
+	SM_Mesh->SetPhysicsLinearVelocity(FVector(0)); 
+	SM_Mesh->SetPhysicsAngularVelocity(FVector(0));
 	SM_Mesh->SetSimulatePhysics( !bIsGrabbed);
 	
 	(bIsGrabbed) ? SM_Mesh->SetCollisionProfileName("GrabbedCube") : SM_Mesh->SetCollisionProfileName("Cube");
