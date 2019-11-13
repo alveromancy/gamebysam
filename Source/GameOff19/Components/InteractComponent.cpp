@@ -4,6 +4,8 @@
 #include "Interfaces/IInteractable.h"
 #include "GameOff19Character.h"
 #include "Engine/World.h"
+#include "Engine/SkeletalMeshSocket.h"
+#include "Components/StaticMeshComponent.h"
 #include "DrawDebugHelpers.h"
 
 UInteractComponent::UInteractComponent() {
@@ -31,11 +33,6 @@ bool UInteractComponent::Interact() {
 				if (currentInteractable->GetClass()->ImplementsInterface(UIInteractable::StaticClass()))
 				{
 					IIInteractable::Execute_Interact(currentInteractable, interactType, handIKType);
-					if (interactType == EInteractType::PickUp) {
-						USkeletalMeshComponent* mesh = GetOwner()->FindComponentByClass<USkeletalMeshComponent>();
-						ensureAlwaysMsgf(mesh->DoesSocketExist(interactSocketName), TEXT("Socket is invalid!"));
-						currentInteractable->AttachToComponent(mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, interactSocketName);
-					}
 					isInteract = true;
 				}
 			}
@@ -50,8 +47,21 @@ bool UInteractComponent::Interact() {
 	return isInteract;
 }
 
-FVector UInteractComponent::GetInteractPoint(const EHandType hand) {
+void UInteractComponent::AttachObject() {
 
+	if (interactType == EInteractType::PickUp) {
+		USkeletalMeshComponent* mesh = GetOwner()->FindComponentByClass<USkeletalMeshComponent>();
+		if (mesh != nullptr) {
+			if (ensureAlwaysMsgf(mesh->DoesSocketExist(interactSocketName), TEXT("Socket is invalid!")))
+			{
+				currentInteractable->AttachToComponent(mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, interactSocketName);
+			}
+		}
+	}
+}
+
+FVector UInteractComponent::GetInteractPoint(const EHandType hand) {
+	
 	FVector interactPoint;
 	if (currentInteractable != nullptr) {
 		USkeletalMeshComponent* skeletalMesh = GetOwner()->FindComponentByClass<USkeletalMeshComponent>();
