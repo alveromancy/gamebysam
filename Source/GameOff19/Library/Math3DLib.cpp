@@ -25,10 +25,9 @@ FVector UMath3DLib::CalculateReflectionRay(const FVector& RayDirection, const FV
 
 FQuat UMath3DLib::CalculateQuaternionBetweenVectors(const FVector & A, const FVector & B)
 {
-	FVector RotationAxis = FVector::CrossProduct(B, A);
-	float degrees = FMath::Acos(FVector::DotProduct(B, A) );
-
-	return FQuat(RotationAxis, FMath::RadiansToDegrees(degrees));
+	float m = FMath::Sqrt(2.f + 2.f * FVector::DotProduct(A, B)); //http://lolengine.net/blog/2013/09/18/beautiful-maths-quaternion-from-vectors
+	FVector w = (1.f / m) * FVector::CrossProduct(A, B);
+	return FQuat(w.X, w.Y, w.Z, 0.5f*m);
 }
 
 

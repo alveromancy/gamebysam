@@ -11,6 +11,9 @@ struct FReflectionData
 {
 	GENERATED_BODY()
 public:
+
+	
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 		FVector ImpactPoint; 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
@@ -37,7 +40,9 @@ public:
 		return !ImpactPoint.Equals(B.ImpactPoint) || !Normal.Equals(B.Normal);
 	}
 
+#if WITH_EDITOR
 	void Debug(UWorld * World);
+#endif
 
 };
 
@@ -57,7 +62,6 @@ public: /*Editor functions */
 	virtual void PostEditMove(bool bFinished) override;
 
 	virtual void PostEditChangeProperty(FPropertyChangedEvent & PropertyChangedEvent) override; 
-
 #endif
 
 public:	/*Runtime Functions */
@@ -72,8 +76,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	FHitResult RecalculateRayLenght();
-
-	void SetRelfectionIndex(int32 index) { ReflectionIndex = index; }
 
 private: 
 	bool RayTrace(FHitResult & OutHit);
@@ -92,7 +94,7 @@ protected:
 		float RayRadius = 1;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ray Properties | Reflection")
-		int32 ReflectionIndex = 0;
+		bool bCanReflect = false;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Ray Properties | Reflection")
 		FReflectionData CurrentReflection;
@@ -100,16 +102,16 @@ protected:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Ray Properties | Reflection")
 		ALightRay * ReflectedRay;
 
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Ray Properties | Reflection")
+		ALightRay * ParentRay;
+
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Ray Properties | Debug", meta = (DisplayName = "Initial Scale"))
 		FVector OriginalScaleFactor;
-
-
-
 
 private: 
 
 	static const float RADIUS_CONSTANT; 
 	static const int32 LIGHT_MAXIMUM_DISTANCE;
-	static const int32 MAX_REFLECTIONS;
+
 
 };
