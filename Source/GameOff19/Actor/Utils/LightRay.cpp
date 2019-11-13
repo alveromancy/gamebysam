@@ -9,6 +9,7 @@
 #include "Engine/Engine.h"
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "GameOff19/Library/Math3DLib.h"
+#include "Runtime/Engine/Classes/Materials/MaterialInstanceDynamic.h"
 
 
 
@@ -29,9 +30,13 @@ ALightRay::ALightRay()
 
 	//Load Mesh Asset
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAssset(TEXT("StaticMesh'/Game/TestingAleix/cylinder.cylinder'"));
+	
 	if(MeshAssset.Object)
 		SM_Mesh->SetStaticMesh(MeshAssset.Object);
 
+	static ConstructorHelpers::FObjectFinder<UMaterial>M_instance(TEXT("Material'/Game/Materials/Placeholders/Raymaterial.Raymaterial'"));	
+	UMaterialInstanceDynamic * Instance = UMaterialInstanceDynamic::Create(M_instance.Object, this, "RayMaterial");
+	SM_Mesh->SetMaterial(0, Instance);
 
 }
 
@@ -158,7 +163,6 @@ void ALightRay::ReflectLight(const FVector & ImpactPoint, const FVector & Normal
 	FReflectionData FrameReflection(ImpactPoint, Normal);
 	if (bCanReflect && FrameReflection != CurrentReflection) //Check that our ray can reflect once more, and we are not repeating the relfection of previous frame
 	{
-		UE_LOG(LogTemp, Log, TEXT("ALightRay::ReflectLight:: Calculating new reflection"));
 		FrameReflection.ReflectedDirection = UMath3DLib::CalculateReflectionRay(GetActorUpVector(), Normal);	
 		
 		if (ReflectedRay)
