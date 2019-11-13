@@ -10,6 +10,7 @@
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "GameOff19/Library/Math3DLib.h"
 #include "Runtime/Engine/Classes/Materials/MaterialInstanceDynamic.h"
+#include "GameOff19/Actor/Geometry/GeometryClass.h"
 
 
 
@@ -127,8 +128,11 @@ FHitResult ALightRay::RecalculateRayLenght()
 		CurrentScale.Z = (Hit.Distance + CurrentScale.X*50) / 100;
 		SetActorScale3D(CurrentScale);
 		
-		if(true) //TODO Ask if hits the material and if the material cann reflect the light
-			ReflectLight(Hit.ImpactPoint, Hit.ImpactNormal);
+		AGeometryClass * Geo = Cast<AGeometryClass>(Hit.Actor);
+		if (Geo && Geo->GetLightBehaviour() == EGeometryLight::REFLECT)
+			ReflectLight(Hit.ImpactPoint, Hit.ImpactNormal); //Calcualte Reflection
+		else if (ReflectedRay) // Don't Calculate Reflection
+			ReflectedRay->Destroy();
 	}
 	else
 	{
