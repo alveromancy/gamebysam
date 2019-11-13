@@ -17,6 +17,9 @@ public:
 		bool Interact();
 	UFUNCTION(BlueprintCallable, Category = Interact)
 		FVector GetInteractPoint(const EHandType hand);
+	/*Call to attach object to hand.*/
+	UFUNCTION(BlueprintCallable, Category = Interact)
+		void AttachObject();
 
 public:
 	/*Type of interaction for currentInteractable*/
