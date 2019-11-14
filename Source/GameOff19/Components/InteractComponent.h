@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Components/ActorComponent.h"
+#include "Components/SceneComponent.h"
 #include "Enums/InteractEnums.h"
 #include "InteractComponent.generated.h"
 
 UCLASS(BlueprintType, meta = (BlueprintSpawnableComponent))
-class GAMEOFF19_API UInteractComponent : public UActorComponent {
+class GAMEOFF19_API UInteractComponent : public USceneComponent {
 	GENERATED_BODY()
 
 public:
@@ -15,37 +15,20 @@ public:
 	/*Call to interact with IInteractable. Retursn whether interaction is successful.*/
 	UFUNCTION(BlueprintCallable, Category = Interact)
 		bool Interact();
-	UFUNCTION(BlueprintCallable, Category = Interact)
-		FVector GetInteractPoint(const EHandType hand);
-	/*Call to attach object to hand.*/
-	UFUNCTION(BlueprintCallable, Category = Interact)
-		void AttachObject();
 
 public:
 	/*Type of interaction for currentInteractable*/
 	UPROPERTY(BlueprintReadOnly, Category = Interact)
 		EInteractType interactType;
-	/*Type of hand IK solution for currentInteractable*/
-	UPROPERTY(BlueprintReadOnly, Category = Interact)
-		EHandIKType handIKType;
 	/*Interaction trace channel*/
 	UPROPERTY(EditDefaultsOnly, meta=(DisplayAfter="distance"), Category = Interact)
 		TEnumAsByte<ETraceTypeQuery> interactChannel;
 	/*Current interacting object.*/
 	UPROPERTY(BlueprintReadOnly, Category = Interact)
 		AActor* currentInteractable;
-	/*Socket that interacted object will be attached to*/
-	UPROPERTY(EditDefaultsOnly, Category = Interact)
-		FName interactSocketName;
-	/*The offset for interaction*/
+	/*The offset of interact socket*/
 	UPROPERTY(EditDefaultsOnly, Category = Interact)
 		FVector offset;
-	/*Bone name of left hand interaction trace position*/
-	UPROPERTY(EditDefaultsOnly, Category = Interact)
-		FName leftBoneName;
-	/*Bone name of left hand interaction trace position*/
-	UPROPERTY(EditDefaultsOnly, Category = Interact)
-		FName rightBoneName;
 	/*Interaction distance*/
 	UPROPERTY(EditDefaultsOnly, Category = Interact)
 		float distance;

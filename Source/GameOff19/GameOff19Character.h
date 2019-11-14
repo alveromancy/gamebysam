@@ -18,7 +18,7 @@ class AGameOff19Character : public ACharacter
 	class UCameraComponent* FirstPersonCameraComponent;
 
 public:
-	AGameOff19Character();
+	AGameOff19Character(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 protected:
 	virtual void BeginPlay();

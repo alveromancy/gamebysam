@@ -61,8 +61,8 @@ public:
 
 	//Interface methods
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
-		void Interact(EInteractType& interactType, EHandIKType& handIKType);
-	void Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType);
+		void Interact(EInteractType& interactType);
+	void Interact_Implementation(EInteractType& interactType);
 
 
 	// Called every frame

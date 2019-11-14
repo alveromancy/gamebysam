@@ -23,10 +23,9 @@ AGeometryClass::AGeometryClass()
 		
 }
 
-void AGeometryClass::Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType)
+void AGeometryClass::Interact_Implementation(EInteractType& interactType)
 {
 	interactType = EInteractType::PickUp;
-	EHandIKType::Trace; 
 	SM_Mesh->SetSimulatePhysics( !SM_Mesh->IsSimulatingPhysics());
 	SetActorEnableCollision(!GetActorEnableCollision());
 }

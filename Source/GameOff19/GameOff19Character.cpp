@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "Components/InteractComponent.h"
 #include "GameFramework/InputSettings.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
@@ -12,8 +13,8 @@ DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 //////////////////////////////////////////////////////////////////////////
 // AGameOff19Character
 
-AGameOff19Character::AGameOff19Character()
-{
+AGameOff19Character::AGameOff19Character(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+	
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
 
@@ -26,18 +27,15 @@ AGameOff19Character::AGameOff19Character()
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 }
 
-void AGameOff19Character::BeginPlay()
-{
+void AGameOff19Character::BeginPlay() {
 	// Call the base class  
 	Super::BeginPlay();
-	FirstPersonCameraComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, EAttachmentRule::KeepWorld, false), "headSocket");
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Input
 
-void AGameOff19Character::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
-{
+void AGameOff19Character::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) {
 	// set up gameplay key bindings
 	check(PlayerInputComponent);
 
@@ -58,32 +56,26 @@ void AGameOff19Character::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AGameOff19Character::LookUpAtRate);
 }
 
-void AGameOff19Character::MoveForward(float Value)
-{
-	if (Value != 0.0f)
-	{
+void AGameOff19Character::MoveForward(float Value) {
+	if (Value != 0.0f) {
 		// add movement in that direction
 		AddMovementInput(GetActorForwardVector(), Value);
 	}
 }
 
-void AGameOff19Character::MoveRight(float Value)
-{
-	if (Value != 0.0f)
-	{
+void AGameOff19Character::MoveRight(float Value) {
+	if (Value != 0.0f) {
 		// add movement in that direction
 		AddMovementInput(GetActorRightVector(), Value);
 	}
 }
 
-void AGameOff19Character::TurnAtRate(float Rate)
-{
+void AGameOff19Character::TurnAtRate(float Rate) {
 	// calculate delta for this frame from the rate information
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AGameOff19Character::LookUpAtRate(float Rate)
-{
+void AGameOff19Character::LookUpAtRate(float Rate) {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
