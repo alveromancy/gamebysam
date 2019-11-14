@@ -90,7 +90,7 @@ void ASwitchButton::TimerFinished() {
 }
 
 //Interaction
-void ASwitchButton::Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType) {
+void ASwitchButton::Interact_Implementation(EInteractType& interactType) {
 
 	if (isLocked)
 		return;
@@ -105,16 +105,4 @@ void ASwitchButton::Interact_Implementation(EInteractType& interactType, EHandIK
 		StartTimer();
 
 	interactType = EInteractType::Interact;
-	handIKType = EHandIKType::Socket;
-}
-
-FVector ASwitchButton::GetRightInteractPoint_Implementation() const {
-	
-	FVector interactPoint;
-	if (ensureMsgf(mesh->DoesSocketExist(interactionSocket), TEXT("Interaction Socket is missing!")))
-	{
-		interactPoint = mesh->GetSocketLocation(interactionSocket);
-	}
-
-	return interactPoint;
 }

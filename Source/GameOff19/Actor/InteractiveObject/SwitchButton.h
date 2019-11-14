@@ -60,11 +60,8 @@ public:
 		FSwitchSignature OnTimerFinished;
 	//Interaction
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
-		void Interact(EInteractType& interactType, EHandIKType& handIKType);
-	virtual void Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType) override;
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
-		FVector GetRightInteractPoint() const;
-	virtual FVector GetRightInteractPoint_Implementation() const override;
+		void Interact(EInteractType& interactType);
+	void Interact_Implementation(EInteractType& interactType);
 
 private:
 	UFUNCTION()
@@ -89,9 +86,6 @@ public:
 	/*How long will the timer be?*/
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, meta = (EditCondition = "isTimed==true"), Category = Switch)
 		float countdownTime;
-	/*Socket for interaction*/
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Interactable)
-		FName interactionSocket;
 
 protected:
 	/*Current switch's state*/
