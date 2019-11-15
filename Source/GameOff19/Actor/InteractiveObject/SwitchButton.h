@@ -36,54 +36,68 @@ public:
 	/*Call to start switch's timer.*/
 	UFUNCTION(BlueprintCallable, Category = Switch)
 		void StartTimer();
+	/*Call to toggle switch's locked state.*/
+	UFUNCTION(BlueprintCallable, Category = Switch)
+		void ChangeLockState(bool state);
 	//Events
-	/*Called whenever switch state has been toggled.*/
+	/*Calls whenever switch state gets toggled.*/
 	UPROPERTY(BlueprintAssignable, Category = Switch)
 		FSwitchSignature OnToggle;
-	/*Called whenever switch state has been changed.(Does not get called when switch state has been toggled.)*/
+	/*Calls whenever switch state gets changed.(Not available for toggle mode)*/
 	UPROPERTY(BlueprintAssignable, Category = Switch)
 		FSwitchSignature OnStateChange;
+	/*Calls whenever switch gets locked.*/
+	UPROPERTY(BlueprintAssignable, Category = Switch)
+		FSwitchSignature OnLocked;
+	/*Calls whenever switch gets unlocked.*/
+	UPROPERTY(BlueprintAssignable, Category = Switch)
+		FSwitchSignature OnUnlocked;
+	/*Calls whenever timer starts.*/
 	UPROPERTY(BlueprintAssignable, Category = Switch)
 		FSwitchSignature OnTimerStart;
+	/*Calls whenever timer finishes.*/
 	UPROPERTY(BlueprintAssignable, Category = Switch)
 		FSwitchSignature OnTimerFinished;
 	//Interaction
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
-		void Interact(EInteractType& interactType, EHandIKType& handIKType);
-	virtual void Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType) override;
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
-		FVector GetLeftInteractPoint() const;
-	virtual FVector GetLeftInteractPoint_Implementation() const override;
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
-		FVector GetRightInteractPoint() const;
-	virtual FVector GetRightInteractPoint_Implementation() const override;
+		void Interact(EInteractType& interactType);
+	void Interact_Implementation(EInteractType& interactType);
 
 private:
 	UFUNCTION()
 		void TimerFinished();
 
 public:
-	UPROPERTY(EditAnywhere, meta = (EditCondition = "isToggle==false"), Category = Switch)
-		bool desiredState;
-	UPROPERTY(EditAnywhere, Category = Switch)
+	/*Is switch locked?*/
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = Switch)
+		bool isLocked;
+	/*Initial state of switch*/
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, meta = (EditCondition = "isToggle==false"), Category = Switch)
+		bool initialState;
+	/*Result state of switch*/
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = Switch)
+		bool resultState;
+	/*Set switch to toggle mode*/
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = Switch)
 		bool isToggle;
-	UPROPERTY(EditAnywhere, Category = Switch)
-		bool hasTimer;
-	UPROPERTY(EditAnywhere, meta = (EditCondition = "hasTimer==true"), Category = Switch)
+	/*Set switch with timer*/
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = Switch)
+		bool isTimed;
+	/*How long will the timer be?*/
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, meta = (EditCondition = "isTimed==true"), Category = Switch)
 		float countdownTime;
-	UPROPERTY(EditAnywhere, meta = (EditCondition = "hasTimer==true"), Category = Switch)
-		bool timeOutState;
-
-	//Interaction
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interactable)
-		class UStaticMeshComponent* mesh;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Interactable)
-		FName leftHandSocket;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Interactable)
-		FName rightHandSocket;
 
 protected:
+	/*Current switch's state*/
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = Switch)
 		bool state;
 	FTimerHandle timerHandler;
+
+private:
+	/*Switch Mesh*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = Interactable)
+		class USkeletalMeshComponent* mesh;
+	/*Switch's Interact Component*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = Interactable)
+		class UAORComponent* AORComponent;
 };
