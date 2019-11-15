@@ -11,7 +11,7 @@
 
 
 // Sets default values
-AGeometryClass::AGeometryClass()
+AGeometryClass::AGeometryClass(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -20,7 +20,7 @@ AGeometryClass::AGeometryClass()
 	RootComponent = SM_Mesh; 
 	SM_Mesh->SetCollisionProfileName("Cube");
 	SM_Mesh->SetSimulatePhysics(true);
-		
+	
 }
 
 void AGeometryClass::Interact_Implementation(EInteractType& interactType)
@@ -32,7 +32,7 @@ void AGeometryClass::Interact_Implementation(EInteractType& interactType)
 	bIsGrabbed = !bIsGrabbed;
 	//Update collision and physics
 	SM_Mesh->SetPhysicsLinearVelocity(FVector(0)); 
-	SM_Mesh->SetPhysicsAngularVelocity(FVector(0));
+	SM_Mesh->SetPhysicsAngularVelocityInDegrees(FVector(0));
 	SM_Mesh->SetSimulatePhysics( !bIsGrabbed);
 	
 	(bIsGrabbed) ? SM_Mesh->SetCollisionProfileName("GrabbedCube") : SM_Mesh->SetCollisionProfileName("Cube");
@@ -66,6 +66,7 @@ void AGeometryClass::Internal_ApplyImpulse(const FVector & Impulse)
 void AGeometryClass::BeginPlay()
 {
 	Super::BeginPlay();
+	SM_Mesh->OnComponentHit.AddDynamic(this, &AGeometryClass::OnHit);
 	SM_Mesh->SetMassOverrideInKg(NAME_None, Weight * 100, true);
 }
 
@@ -86,3 +87,19 @@ void AGeometryClass::DestroyCube()
 		Destroy(); 
 }
 
+
+void AGeometryClass::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Log, TEXT(" AGeometryClass::OnHit"));
+	AGeometryClass * Other = Cast<AGeometryClass>(OtherActor); 
+	if (Other && ShouldDestroyOnHit(Other) && Hit.Normal.Equals(FVector(0, 0, 1), 0.5f))
+	{
+		DestroyCube();
+	}
+}
+
+
+bool AGeometryClass::ShouldDestroyOnHit(AGeometryClass * ImpactedCube)const
+{	
+	return  Material == EGeometryMaterial::PLASTIC && ImpactedCube->GetMaterial() != EGeometryMaterial::PLASTIC;
+}
