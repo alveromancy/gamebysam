@@ -23,11 +23,10 @@ AGeometryClass::AGeometryClass()
 		
 }
 
-void AGeometryClass::Interact_Implementation(EInteractType& interactType, EHandIKType& handIKType)
+void AGeometryClass::Interact_Implementation(EInteractType& interactType)
 {
 	//Output
 	interactType = EInteractType::PickUp;
-	EHandIKType::Trace; 
 
 	//Update control variable
 	bIsGrabbed = !bIsGrabbed;
