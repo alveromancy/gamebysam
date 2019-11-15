@@ -81,7 +81,7 @@ public:
 		EGeometryElectricty GetElectricityBehaviour()const { return MaterialElectricity; }
 
 	//Call this function when you want to destroy the cube 
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
 		void DestroyCube(); 
 
 	void DestroyCube_Implementation();
@@ -101,7 +101,7 @@ protected:
 		The cube is ready to be destroyed, all the efects and logic has been set. 
 	*/
 	UFUNCTION(BlueprintCallable)
-		void FinishDestroy(); 
+		void FinishDestroyCube(); 
 
 protected: 
 

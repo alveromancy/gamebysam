@@ -79,11 +79,11 @@ void AGeometryClass::Tick(float DeltaTime)
 
 void AGeometryClass::DestroyCube_Implementation()
 {
-	FinishDestroy();
+	FinishDestroyCube();
 }
 
 
-void AGeometryClass::FinishDestroy()
+void AGeometryClass::FinishDestroyCube()
 {
 
 	if (Spawner && bCanRespawn)
