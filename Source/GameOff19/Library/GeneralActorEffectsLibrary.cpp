@@ -4,22 +4,31 @@
 #include "GeneralActorEffectsLibrary.h"
 #include "GameFramework/WorldSettings.h"
 #include "GameFramework/Actor.h"
+#include "Engine/World.h"
 
 
-void UGeneralActorEffectsLibrary::SetGlobalTimeSpeed(AWorldSettings * WorldSettings, float Percent, bool bAfffectsPlayer, AActor * Player)
+void UGeneralActorEffectsLibrary::SetGlobalTimeSpeed(UWorld * World, float Percent, bool bAfffectsPlayer, AActor * Player)
 {
-	float NewSpeed = NormalizePercent(Percent); 
-	WorldSettings->SetTimeDilation(NewSpeed);
-	if (!bAfffectsPlayer && Player)
-		Player->CustomTimeDilation = 1 / NewSpeed;
+	if (World)
+	{
+		float NewSpeed = NormalizePercent(Percent);
+		World->GetWorldSettings()->SetTimeDilation(NewSpeed);
+		if (!bAfffectsPlayer && Player)
+			Player->CustomTimeDilation = 1 / NewSpeed;
+	}
+
 }
 
 
-void UGeneralActorEffectsLibrary::ResetTimeSpeed(AWorldSettings * WorldSettings, bool bAfffectsPlayer, AActor * Player)
+void UGeneralActorEffectsLibrary::ResetTimeSpeed( UWorld * World, bool bAfffectsPlayer, AActor * Player)
 {
-	WorldSettings->SetTimeDilation(1);
-	if (!bAfffectsPlayer && Player)
-		Player->CustomTimeDilation = 1 ;
+	if (World)
+	{
+		World->GetWorldSettings()->SetTimeDilation(1);
+		if (!bAfffectsPlayer && Player)
+			Player->CustomTimeDilation = 1;
+	}
+
 }
 
 

@@ -7,6 +7,8 @@
 #include "Components/InputComponent.h"
 #include "Components/InteractComponent.h"
 #include "GameFramework/InputSettings.h"
+#include "GameOff19/Components/InteractComponent.h"
+#include "GameOff19/Actor/Geometry/GeometryClass.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -24,7 +26,12 @@ AGameOff19Character::AGameOff19Character(const FObjectInitializer& ObjectInitial
 
 	// Create a CameraComponent	
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+	FirstPersonCameraComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform); 
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
+
+	InteractComponent = CreateDefaultSubobject<UInteractComponent>(TEXT("InteractComponent")); 
+	InteractComponent->AttachToComponent(RootComponent , FAttachmentTransformRules::KeepRelativeTransform);
+	InteractComponent->distance = 250; 
 }
 
 void AGameOff19Character::BeginPlay() {
@@ -43,6 +50,9 @@ void AGameOff19Character::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	PlayerInputComponent->BindAction("Interact", IE_Released, this, &AGameOff19Character::Interact); 
+
+
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGameOff19Character::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGameOff19Character::MoveRight);
@@ -54,6 +64,20 @@ void AGameOff19Character::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAxis("TurnRate", this, &AGameOff19Character::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AGameOff19Character::LookUpAtRate);
+	PlayerInputComponent->BindAxis("MoveGrabbVertical", this, &AGameOff19Character::MoveGrabbedItem);
+
+}
+
+void AGameOff19Character::Jump()
+{
+	AActor * GrabbedItem = InteractComponent->GetCurrentItem(); 
+	AGeometryClass * Geometry = Cast<AGeometryClass>(GrabbedItem); 
+	if (!Geometry || Geometry->GetMaterial() != EGeometryMaterial::STONE)
+	{
+		Super::Jump();
+	}
+
+		
 }
 
 void AGameOff19Character::MoveForward(float Value) {
@@ -78,4 +102,14 @@ void AGameOff19Character::TurnAtRate(float Rate) {
 void AGameOff19Character::LookUpAtRate(float Rate) {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AGameOff19Character::Interact()
+{
+	InteractComponent->Interact();
+}
+
+void AGameOff19Character::MoveGrabbedItem(float Rate)
+{
+	InteractComponent->AddRelativeLocation(FVector(0, 0, Rate)); 
 }
