@@ -16,10 +16,10 @@ class GAMEOFF19_API UGeneralActorEffectsLibrary : public UBlueprintFunctionLibra
 
 public: 
 	UFUNCTION(BlueprintCallable)
-		static void SetGlobalTimeSpeed(class AWorldSettings * WorldSettings, float Percent, bool bAfffectsPlayer = false, class AActor * Player = nullptr);
+		static void SetGlobalTimeSpeed(class UWorld * World, float Percent, bool bAfffectsPlayer = false, class AActor * Player = nullptr);
 
 	UFUNCTION(BlueprintCallable)
-		static void ResetTimeSpeed(class AWorldSettings * WorldSettings , bool bAfffectsPlayer = false, class AActor * Player = nullptr);
+		static void ResetTimeSpeed(class UWorld * World, bool bAfffectsPlayer = false, class AActor * Player = nullptr);
 
 	UFUNCTION(BlueprintCallable)
 		static void SetOnlyPlayerTimeSpeed(class AActor * Player, float Percent);

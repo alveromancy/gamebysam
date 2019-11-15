@@ -57,7 +57,7 @@ class GAMEOFF19_API AGeometryClass : public AActor , public IIInteractable
 	
 public:	
 	// Sets default values for this actor's properties
-	AGeometryClass();
+	AGeometryClass(const FObjectInitializer& ObjectInitializer);
 
 	//Interface methods
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
@@ -96,10 +96,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 protected: 
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Mesh")
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Mesh")
 		class UStaticMeshComponent * SM_Mesh;
 
 	//Weight of the cube
@@ -117,12 +118,15 @@ protected:
 	//Behaviour with light
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryLight MaterialLight;
-
 	//Can this Cube respawn? 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
 		bool bCanRespawn = true; 
 
 	bool bIsGrabbed = false;
+
+
+private: 
+	bool ShouldDestroyOnHit(AGeometryClass * ImpactedCube)const; 
 };
 
 
