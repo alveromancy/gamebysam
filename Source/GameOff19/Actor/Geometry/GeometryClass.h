@@ -122,6 +122,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
 		bool bCanRespawn = true; 
 
+	bool bIsGrabbed = false;
 };
 
 

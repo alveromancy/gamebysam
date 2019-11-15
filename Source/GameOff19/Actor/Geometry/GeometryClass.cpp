@@ -25,9 +25,16 @@ AGeometryClass::AGeometryClass()
 
 void AGeometryClass::Interact_Implementation(EInteractType& interactType)
 {
+	//Output
 	interactType = EInteractType::PickUp;
-	SM_Mesh->SetSimulatePhysics( !SM_Mesh->IsSimulatingPhysics());
-	SetActorEnableCollision(!GetActorEnableCollision());
+
+	//Update control variable
+	bIsGrabbed = !bIsGrabbed;
+	//Update collision and physics
+	SM_Mesh->SetSimulatePhysics( !bIsGrabbed);
+	
+	(bIsGrabbed) ? SM_Mesh->SetCollisionProfileName("GrabbedCube") : SM_Mesh->SetCollisionProfileName("Cube");
+	
 }
 
 
