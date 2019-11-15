@@ -30,7 +30,7 @@ ALightRay::ALightRay()
 	SM_Mesh->SetWorldScale3D(FVector(0.2));
 
 	//Load Mesh Asset
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAssset(TEXT("StaticMesh'/Game/TestingAleix/cylinder.cylinder'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAssset(TEXT("StaticMesh'/Game/Assets/Geometry/Meshes/cylinder.cylinder'"));
 	
 	if(MeshAssset.Object)
 		SM_Mesh->SetStaticMesh(MeshAssset.Object);
