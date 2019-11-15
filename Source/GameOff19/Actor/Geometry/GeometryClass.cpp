@@ -77,16 +77,20 @@ void AGeometryClass::Tick(float DeltaTime)
 
 }
 
-void AGeometryClass::DestroyCube()
+void AGeometryClass::DestroyCube_Implementation()
 {
-	OnDestroyCube();
+	FinishDestroy();
+}
+
+
+void AGeometryClass::FinishDestroy()
+{
 
 	if (Spawner && bCanRespawn)
 		Spawner->CubeDestroyed(this);
 	else
-		Destroy(); 
+		Destroy();
 }
-
 
 void AGeometryClass::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
