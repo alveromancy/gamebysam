@@ -17,8 +17,14 @@ class AGameOff19Character : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FirstPersonCameraComponent;
 
+	/** First person camera */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interact, meta = (AllowPrivateAccess = "true"))
+		class UInteractComponent* InteractComponent;
+
 public:
 	AGameOff19Character(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	virtual void Jump() override;
 
 protected:
 	virtual void BeginPlay();
@@ -31,6 +37,8 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+
+
 
 protected:
 
@@ -51,6 +59,16 @@ protected:
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void LookUpAtRate(float Rate);
+
+	/**
+		Called via input to try to interact with an item. 
+	*/
+	void Interact(); 
+
+	/**
+		Called via input, moves the current active item upwards or downards. 
+	*/
+	void MoveGrabbedItem(float Rate); 
 	
 protected:
 	// APawn interface
