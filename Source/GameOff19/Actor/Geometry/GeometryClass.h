@@ -57,7 +57,7 @@ class GAMEOFF19_API AGeometryClass : public AActor , public IIInteractable
 	
 public:	
 	// Sets default values for this actor's properties
-	AGeometryClass();
+	AGeometryClass(const FObjectInitializer& ObjectInitializer);
 
 	//Interface methods
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Interactable)
@@ -81,11 +81,10 @@ public:
 		EGeometryElectricty GetElectricityBehaviour()const { return MaterialElectricity; }
 
 	//Call this function when you want to destroy the cube 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
 		void DestroyCube(); 
 
-	UFUNCTION(BlueprintImplementableEvent)
-		void OnDestroyCube();
+	void DestroyCube_Implementation();
 
 
 	void Internal_SetStatus(bool bIsAlive); 
@@ -96,10 +95,17 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
+	/**
+		The cube is ready to be destroyed, all the efects and logic has been set. 
+	*/
+	UFUNCTION(BlueprintCallable)
+		void FinishDestroyCube(); 
 
 protected: 
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Mesh")
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Mesh")
 		class UStaticMeshComponent * SM_Mesh;
 
 	//Weight of the cube
@@ -117,12 +123,15 @@ protected:
 	//Behaviour with light
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
 		EGeometryLight MaterialLight;
-
 	//Can this Cube respawn? 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
 		bool bCanRespawn = true; 
 
 	bool bIsGrabbed = false;
+
+
+private: 
+	bool ShouldDestroyOnHit(AGeometryClass * ImpactedCube)const; 
 };
 
 
