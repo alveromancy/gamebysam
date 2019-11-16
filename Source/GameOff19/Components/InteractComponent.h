@@ -16,6 +16,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Interact)
 		bool Interact();
 
+	UFUNCTION(BlueprintCallable, Category = Interact)
+		AActor * GetCurrentItem()const { return currentInteractable;	}
+
 public:
 	/*Type of interaction for currentInteractable*/
 	UPROPERTY(BlueprintReadOnly, Category = Interact)
