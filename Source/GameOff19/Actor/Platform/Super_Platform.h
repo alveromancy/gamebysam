@@ -89,13 +89,13 @@ private:
 
 protected: 
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 		class USplineComponent * S_Path; 
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 		class UStaticMeshComponent * SM_Mesh; 
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 		class USphereComponent * SC_Collider;	
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Platform | Config")

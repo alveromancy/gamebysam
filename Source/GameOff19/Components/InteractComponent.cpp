@@ -16,7 +16,7 @@ bool UInteractComponent::Interact() {
 
 	bool isInteract = false;
 	if (currentInteractable == nullptr) {
-		
+
 		//Grab camera component
 		AGameOff19Character* character = Cast<AGameOff19Character>(GetOwner());
 		ensureMsgf(character != nullptr, TEXT("Character can't be found!"));
@@ -30,8 +30,8 @@ bool UInteractComponent::Interact() {
 		DrawDebugLine(GetWorld(), tracePos, traceEnd, FColor::Red, false, 5.0f, 0, 0.5f);
 		if (GetWorld()->LineTraceSingleByChannel(hitResult, tracePos, traceEnd, channel)) {
 			if (hitResult.Actor.IsValid()) {
-				currentInteractable = hitResult.Actor.Get();
-				if (currentInteractable->GetClass()->ImplementsInterface(UIInteractable::StaticClass())) {
+				if (hitResult.Actor.Get()->GetClass()->ImplementsInterface(UIInteractable::StaticClass())) {
+					currentInteractable = hitResult.Actor.Get();
 					IIInteractable::Execute_Interact(currentInteractable, interactType);
 					if (interactType == EInteractType::PickUp) {
 						currentInteractable->AttachToComponent(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
