@@ -66,7 +66,7 @@ void AGeometryClass::Internal_ApplyImpulse(const FVector & Impulse)
 void AGeometryClass::BeginPlay()
 {
 	Super::BeginPlay();
-	SM_Mesh->OnComponentHit.AddDynamic(this, &AGeometryClass::OnHit);
+	//SM_Mesh->OnComponentHit.AddDynamic(this, &AGeometryClass::OnHit);
 	SM_Mesh->SetMassOverrideInKg(NAME_None, Weight * 100, true);
 }
 
