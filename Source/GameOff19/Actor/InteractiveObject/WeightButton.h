@@ -38,10 +38,10 @@ protected:
 
 protected: 
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta =(AllowPrivateAcces = "True"))
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta =(AllowPrivateAcces = "True"))
 		class UBoxComponent*  BC_Collider;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAcces = "True"))
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, meta = (AllowPrivateAcces = "True"))
 		class UStaticMeshComponent* SM_Mesh; 
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Activation")

@@ -41,6 +41,7 @@ void UElectricityActor::TurnOnElectricity()
 	bIsElectrified = true; 
 	OnElectrified.Broadcast();
 	PropagateElectricity();
+	
 }
 
 void UElectricityActor::SetPropagateFlag(bool bCanPropagateElectricity)
@@ -69,9 +70,19 @@ void UElectricityActor::PropagateElectricity()
 	if (ElectricComponentReference)
 	{
 		if (bIsElectrified && bCanPropagate)
+		{
 			ElectricComponentReference->TurnOnElectricity();
-		else 
+			if (ActorToPlugg)
+				UE_LOG(LogTemp, Log, TEXT("Turning on the electricity from %s to: %s"), *GetOwner()->GetDebugName(GetOwner()), *ActorToPlugg->GetDebugName(ActorToPlugg));
+		}
+		else
+		{
 			ElectricComponentReference->TurnOffElectricity();
+			UE_LOG(LogTemp, Warning, TEXT("Turning off the electricity from %s to: %s"), *GetOwner()->GetDebugName(GetOwner()), *ActorToPlugg->GetDebugName(ActorToPlugg));
+		}
+			
 	}
+	else
+		UE_LOG(LogTemp, Error, TEXT("from %s ElectricComponentNotFound"), *GetOwner()->GetDebugName(GetOwner()));
 }
 
