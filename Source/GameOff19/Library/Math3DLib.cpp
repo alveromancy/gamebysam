@@ -52,6 +52,18 @@ FQuat UMath3DLib::CalculateQuaternionBetweenVectors(const FVector & A, const FVe
 }
 
 
+
+FQuat UMath3DLib::CalculateQuaternionBetweenVectors_XYPlane(const FVector & A, const FVector & B)
+{
+	FVector B_2 = B * FVector(1.f, 1.f, 0.01f); 
+	B_2 = B_2.GetSafeNormal();
+
+	float m = FMath::Sqrt(2.f + 2.f * FVector::DotProduct(A, B_2)); //http://lolengine.net/blog/2013/09/18/beautiful-maths-quaternion-from-vectors
+	FVector w = (1.f / m) * FVector::CrossProduct(A, B_2);
+	return FQuat(w.X, w.Y, w.Z, 0.5f*m);
+}
+
+
 #if WITH_EDITOR
 
 void  UMath3DLib::DebugVisualRay(const UWorld * World, const FVector & Origin, const FVector & End, const FColor & Color, float lifetime)

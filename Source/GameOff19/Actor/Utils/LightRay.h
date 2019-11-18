@@ -84,6 +84,9 @@ private:
 
 	ALightRay * SpawnReflectedLight(const FVector & ImpactPoint, const FVector & Direction); 
 
+	void DisableRay(); 
+	void EnableRay(); 
+	void UpdateRay(const FVector & Location, const FVector & Direction); 
 /*Atributes*/
 protected: 
 
