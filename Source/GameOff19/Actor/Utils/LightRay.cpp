@@ -131,8 +131,15 @@ FHitResult ALightRay::RecalculateRayLenght()
 		AGeometryClass * Geo = Cast<AGeometryClass>(Hit.Actor);
 		if (Geo && Geo->GetLightBehaviour() == EGeometryLight::REFLECT)
 			ReflectLight(Hit.ImpactPoint, Hit.ImpactNormal); //Calcualte Reflection
-		else if (ReflectedRay) // Don't Calculate Reflection
-			ReflectedRay->Destroy();
+		else
+		{
+			if (ReflectedRay) // Don't Calculate Reflection
+				ReflectedRay->DisableRay();
+
+			CurrentReflection = FReflectionData();
+
+		}
+
 	}
 	else
 	{
@@ -167,11 +174,18 @@ void ALightRay::ReflectLight(const FVector & ImpactPoint, const FVector & Normal
 	FReflectionData FrameReflection(ImpactPoint, Normal);
 	if (bCanReflect && FrameReflection != CurrentReflection) //Check that our ray can reflect once more, and we are not repeating the relfection of previous frame
 	{
+		//FrameReflection.ReflectedDirection = UMath3DLib::CalculateReflectionRay(GetActorUpVector(), Normal);	
 		FrameReflection.ReflectedDirection = UMath3DLib::CalculateReflectionRay(GetActorUpVector(), Normal);	
 		
-		if (ReflectedRay)
+		/*if (ReflectedRay)
 			ReflectedRay->Destroy();
-		ReflectedRay = SpawnReflectedLight(ImpactPoint, FrameReflection.ReflectedDirection);
+		ReflectedRay = SpawnReflectedLight(ImpactPoint, FrameReflection.ReflectedDirection);*/
+
+		if (ReflectedRay)
+			UpdateRay(ImpactPoint, FrameReflection.ReflectedDirection);		
+		else 
+			ReflectedRay = SpawnReflectedLight(ImpactPoint, FrameReflection.ReflectedDirection);
+
 		CurrentReflection = FrameReflection;
 	}
 
@@ -187,8 +201,9 @@ ALightRay * ALightRay::SpawnReflectedLight(const FVector & ImpactPoint, const FV
 	if (NewRay)
 	{
 		//Set References
-		this->ReflectedRay = NewRay; NewRay->ParentRay = this; 
-		FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors(ReflectedRay->GetActorUpVector(), Direction);
+		ReflectedRay = NewRay; NewRay->ParentRay = this; 
+		//FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors(ReflectedRay->GetActorUpVector(), Direction);
+		FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors_XYPlane(ReflectedRay->GetActorUpVector(), Direction);
 		FTransform SpawnTransform(Rotation, ImpactPoint - GetActorUpVector(), FVector(1));
 		NewRay->FinishSpawning(SpawnTransform);
 		NewRay->SetActorScale3D(GetActorScale3D() * FVector(1,1,0.1));
@@ -197,3 +212,32 @@ ALightRay * ALightRay::SpawnReflectedLight(const FVector & ImpactPoint, const FV
 	return NewRay;
 }
 
+
+void ALightRay::DisableRay()
+{
+	SetActorTickEnabled(false); 
+	SetActorEnableCollision(false); 
+	SetActorHiddenInGame(true); 
+}
+
+void ALightRay::EnableRay()
+{
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+	SetActorTickEnabled(true);
+}
+
+void ALightRay::UpdateRay(const FVector & ImpactPoint, const FVector & Direction)
+{
+
+	if(!ReflectedRay->IsActorTickEnabled())
+		ReflectedRay->EnableRay();
+
+	FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors_XYPlane(GetActorForwardVector(), Direction);
+	//FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors(ReflectedRay->GetActorUpVector(), Direction);
+	FTransform UpdateTransform(Rotation, ImpactPoint - GetActorUpVector(), ReflectedRay->GetActorScale3D());
+	ReflectedRay->SetActorTransform(UpdateTransform);
+
+	
+	
+}
