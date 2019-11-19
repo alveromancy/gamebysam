@@ -19,7 +19,6 @@ void AGeometrySpawner::BeginPlay()
 {
 	Super::BeginPlay();
 	Internal_Init();
-
 }
 
 
@@ -43,8 +42,10 @@ void AGeometrySpawner::Internal_Init()
 
 void AGeometrySpawner::CubeDestroyed(AGeometryClass * DestroyedCube)
 {
+	DestroyedCube->Internal_ResetMaterialAndPhysics(); 
 	DestroyedCube->Internal_SetStatus(false); 
 	DestroyedCube->SetActorLocation( GetActorLocation() );
+
 
 	SpawnQueue.Add(DestroyedCube);
 	
