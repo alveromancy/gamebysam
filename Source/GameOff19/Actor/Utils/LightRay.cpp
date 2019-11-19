@@ -11,6 +11,8 @@
 #include "GameOff19/Library/Math3DLib.h"
 #include "Runtime/Engine/Classes/Materials/MaterialInstanceDynamic.h"
 #include "GameOff19/Actor/Geometry/GeometryClass.h"
+#include "Kismet/KismetMathLibrary.h"
+
 
 
 
@@ -63,7 +65,6 @@ void FReflectionData::Debug(UWorld * World)
 	FVector EndNormal = ImpactPoint + Normal * 500;
 	DrawDebugLine(World, ImpactPoint, EndPoint, FColor::Red, false, 0.5f, 1, 5.0f);
 	DrawDebugLine(World, ImpactPoint, EndNormal, FColor::Blue, false, 0.5f, 1, 5.0f);
-
 }
 
 void ALightRay::PostEditMove(bool bFinished)
@@ -88,7 +89,7 @@ void ALightRay::PostEditChangeProperty(FPropertyChangedEvent & PropertyChangedEv
 	if (PropertyName == GET_MEMBER_NAME_CHECKED(ALightRay, RayRadius))
 	{
 		FVector scale = GetActorScale3D(); 
-		scale.X = scale.Y = RayRadius * RADIUS_CONSTANT;
+		scale.Z = scale.Y = RayRadius * RADIUS_CONSTANT;
 		SetActorScale3D(scale); 
 	}
 }
@@ -125,7 +126,7 @@ FHitResult ALightRay::RecalculateRayLenght()
 	if (RayTrace(Hit))
 	{
 		FVector CurrentScale = GetActorScale3D();
-		CurrentScale.Z = (Hit.Distance + CurrentScale.X*50) / 100;
+		CurrentScale.X = (Hit.Distance + CurrentScale.Z*50) / 100;
 		SetActorScale3D(CurrentScale);
 		
 		AGeometryClass * Geo = Cast<AGeometryClass>(Hit.Actor);
@@ -144,7 +145,7 @@ FHitResult ALightRay::RecalculateRayLenght()
 	else
 	{
 		FVector CurrentScale = GetActorScale3D();
-		CurrentScale.Z = (LIGHT_MAXIMUM_DISTANCE) / 100;
+		CurrentScale.X = (LIGHT_MAXIMUM_DISTANCE) / 100;
 		SetActorScale3D(CurrentScale);
 	}
 			
@@ -157,7 +158,7 @@ bool ALightRay::RayTrace(FHitResult & OutHit)
 {
 	FVector StartPoint = GetActorLocation(); 
 
-	FVector EndPoint =  StartPoint + GetActorUpVector() * LIGHT_MAXIMUM_DISTANCE;
+	FVector EndPoint =  StartPoint + GetActorForwardVector() * LIGHT_MAXIMUM_DISTANCE;
 	ECollisionChannel Channel = ECollisionChannel::ECC_GameTraceChannel3; //RayTrace Trace created on physics channels 
 	FCollisionQueryParams CQP; CQP.bFindInitialOverlaps = false; CQP.AddIgnoredActor(this); CQP.AddIgnoredActor(ReflectedRay); CQP.AddIgnoredActor(ParentRay);
 	FCollisionResponseParams CRP; 
@@ -175,12 +176,8 @@ void ALightRay::ReflectLight(const FVector & ImpactPoint, const FVector & Normal
 	if (bCanReflect && FrameReflection != CurrentReflection) //Check that our ray can reflect once more, and we are not repeating the relfection of previous frame
 	{
 		//FrameReflection.ReflectedDirection = UMath3DLib::CalculateReflectionRay(GetActorUpVector(), Normal);	
-		FrameReflection.ReflectedDirection = UMath3DLib::CalculateReflectionRay(GetActorUpVector(), Normal);	
+		FrameReflection.ReflectedDirection = UMath3DLib::CalculateReflectionRay(GetActorForwardVector(), Normal);	
 		
-		/*if (ReflectedRay)
-			ReflectedRay->Destroy();
-		ReflectedRay = SpawnReflectedLight(ImpactPoint, FrameReflection.ReflectedDirection);*/
-
 		if (ReflectedRay)
 			UpdateRay(ImpactPoint, FrameReflection.ReflectedDirection);		
 		else 
@@ -197,16 +194,15 @@ ALightRay * ALightRay::SpawnReflectedLight(const FVector & ImpactPoint, const FV
 {
 
 	
-	ALightRay * NewRay = GetWorld()->SpawnActorDeferred< ALightRay>(ALightRay::StaticClass(), FTransform(), nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+	ALightRay * NewRay = GetWorld()->SpawnActorDeferred< ALightRay>(ALightRay::StaticClass(), GetActorTransform(), nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 	if (NewRay)
 	{
 		//Set References
 		ReflectedRay = NewRay; NewRay->ParentRay = this; 
-		//FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors(ReflectedRay->GetActorUpVector(), Direction);
-		FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors_XYPlane(ReflectedRay->GetActorUpVector(), Direction);
-		FTransform SpawnTransform(Rotation, ImpactPoint - GetActorUpVector(), FVector(1));
+		FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors_XYPlane(GetActorForwardVector(), Direction);
+		FTransform SpawnTransform(Rotation, ImpactPoint - GetActorForwardVector(), FVector(1.f));
 		NewRay->FinishSpawning(SpawnTransform);
-		NewRay->SetActorScale3D(GetActorScale3D() * FVector(1,1,0.1));
+		NewRay->SetActorScale3D(GetActorScale3D() * FVector(0.1f,1.f,1.f));
 	}
 	
 	return NewRay;
@@ -234,10 +230,8 @@ void ALightRay::UpdateRay(const FVector & ImpactPoint, const FVector & Direction
 		ReflectedRay->EnableRay();
 
 	FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors_XYPlane(GetActorForwardVector(), Direction);
-	//FQuat Rotation = UMath3DLib::CalculateQuaternionBetweenVectors(ReflectedRay->GetActorUpVector(), Direction);
-	FTransform UpdateTransform(Rotation, ImpactPoint - GetActorUpVector(), ReflectedRay->GetActorScale3D());
-	ReflectedRay->SetActorTransform(UpdateTransform);
+	FRotator Target = UKismetMathLibrary::FindLookAtRotation(ReflectedRay->GetActorLocation(), ImpactPoint + Direction*150);
+	
 
-	
-	
+	ReflectedRay->SetActorLocationAndRotation(ImpactPoint - GetActorForwardVector(), Target);
 }
