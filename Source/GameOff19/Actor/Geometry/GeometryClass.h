@@ -90,7 +90,7 @@ public:
 	void Internal_SetStatus(bool bIsAlive); 
 	void Internal_SetSpawner(class AGeometrySpawner * SpawnActor);
 	void Internal_ApplyImpulse(const FVector & Impulse); 
-
+	void Internal_ResetMaterialAndPhysics(); 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -112,7 +112,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
 		float Weight;
 	//Reference to the spawner actor
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Spawner")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
 		class AGeometrySpawner * Spawner; 
 	//Material 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
@@ -132,6 +132,9 @@ protected:
 
 private: 
 	bool ShouldDestroyOnHit(AGeometryClass * ImpactedCube)const; 
+
+
+	class UMaterialInterface * OriginalMaterial; 
 };
 
 
