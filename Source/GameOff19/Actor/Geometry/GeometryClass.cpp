@@ -5,6 +5,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "GameOff19/Actor/Geometry/GeometrySpawner.h"
 #include "Components/CapsuleComponent.h"
+#include "Materials/Material.h"
+
 
 
 
@@ -62,12 +64,20 @@ void AGeometryClass::Internal_ApplyImpulse(const FVector & Impulse)
 	SM_Mesh->AddImpulse(Impulse);
 }
 
+
+void AGeometryClass::Internal_ResetMaterialAndPhysics()
+{
+	SM_Mesh->SetMaterial(0, OriginalMaterial); 
+	SM_Mesh->SetEnableGravity(true);
+}
+
 // Called when the game starts or when spawned
 void AGeometryClass::BeginPlay()
 {
 	Super::BeginPlay();
 	//SM_Mesh->OnComponentHit.AddDynamic(this, &AGeometryClass::OnHit);
 	SM_Mesh->SetMassOverrideInKg(NAME_None, Weight * 100, true);
+	OriginalMaterial = SM_Mesh->GetMaterial(0); 
 }
 
 // Called every frame
@@ -89,7 +99,11 @@ void AGeometryClass::FinishDestroyCube()
 	if (Spawner && bCanRespawn)
 		Spawner->CubeDestroyed(this);
 	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("Destroying cube: Can respawn : %s  , Spawner set: %s"), (bCanRespawn) ? "True" : "False",(Spawner)? "True": "False")
 		Destroy();
+	}
+		
 }
 
 void AGeometryClass::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
