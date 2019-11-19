@@ -112,7 +112,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Properties")
 		float Weight;
 	//Reference to the spawner actor
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Spawner")
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Spawner")
 		class AGeometrySpawner * Spawner; 
 	//Material 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly,  Category = "Properties")
