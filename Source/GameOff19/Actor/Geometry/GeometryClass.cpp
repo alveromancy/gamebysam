@@ -66,7 +66,7 @@ void AGeometryClass::Internal_ApplyImpulse(const FVector & Impulse)
 void AGeometryClass::BeginPlay()
 {
 	Super::BeginPlay();
-	SM_Mesh->OnComponentHit.AddDynamic(this, &AGeometryClass::OnHit);
+	//SM_Mesh->OnComponentHit.AddDynamic(this, &AGeometryClass::OnHit);
 	SM_Mesh->SetMassOverrideInKg(NAME_None, Weight * 100, true);
 }
 
@@ -77,16 +77,20 @@ void AGeometryClass::Tick(float DeltaTime)
 
 }
 
-void AGeometryClass::DestroyCube()
+void AGeometryClass::DestroyCube_Implementation()
 {
-	OnDestroyCube();
+	FinishDestroyCube();
+}
+
+
+void AGeometryClass::FinishDestroyCube()
+{
 
 	if (Spawner && bCanRespawn)
 		Spawner->CubeDestroyed(this);
 	else
-		Destroy(); 
+		Destroy();
 }
-
 
 void AGeometryClass::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
