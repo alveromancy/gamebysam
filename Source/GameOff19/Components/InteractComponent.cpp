@@ -36,9 +36,6 @@ bool UInteractComponent::Interact() {
 					if (interactType == EInteractType::PickUp) {
 						currentInteractable->AttachToComponent(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 					}
-					else {
-						currentInteractable = nullptr;
-					}
 					isInteract = true;
 				}
 			}
