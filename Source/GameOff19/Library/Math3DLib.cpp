@@ -9,6 +9,7 @@
 
 FVector UMath3DLib::CalculateReflectionRay(const FVector& RayDirection, const FVector& Normal)
 {
+	
 	//Found Axis 
 	FVector RotationAxis = FVector::CrossProduct(Normal , RayDirection);
 
@@ -62,6 +63,8 @@ FQuat UMath3DLib::CalculateQuaternionBetweenVectors_XYPlane(const FVector & A, c
 	FVector w = (1.f / m) * FVector::CrossProduct(A, B_2);
 	return FQuat(w.X, w.Y, w.Z, 0.5f*m);
 }
+
+
 
 
 #if WITH_EDITOR
